@@ -107,7 +107,7 @@ class _AppTextFieldState extends State<AppTextField> {
           ),
           prefixIcon: widget.prefixIcon,
           filled: widget.filled ?? true,
-          fillColor: widget.fillColor ?? AppColors.bg,
+          fillColor: widget.fillColor ?? AppColors.white,
           enabled: widget.enabled,
           suffixIcon:
               widget.suffixIcon ??

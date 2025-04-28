@@ -55,7 +55,7 @@ class AppButtonWidget extends StatelessWidget {
                     ),
                   ]
                   : [],
-          color: color ?? AppColors.secondary,
+          color: color ?? AppColors.primary,
           borderRadius: borderRadius ?? BorderRadius.circular(24),
         ),
         padding: padding ?? EdgeInsets.symmetric(vertical: 2.h, horizontal: 2.5.w),

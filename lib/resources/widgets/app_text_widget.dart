@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:petguardian/resources/constants/constants.dart';
 import 'package:sizer/sizer.dart';
 
 import '../constants/app_colors.dart';
@@ -6,6 +7,7 @@ import '../constants/app_colors.dart';
 class AppTextWidget extends StatelessWidget {
   final String text;
   final double? fontSize;
+  final String? fontFamily;
   final EdgeInsetsGeometry? padding;
   final int? maxLines;
   final FontWeight fontWeight;
@@ -33,6 +35,7 @@ class AppTextWidget extends StatelessWidget {
     this.shadows,
     this.padding,
     this.height = 1,
+    this.fontFamily,
   });
 
   @override
@@ -45,6 +48,7 @@ class AppTextWidget extends StatelessWidget {
         softWrap: softWrap,
         overflow: overflow,
         style: TextStyle(
+          fontFamily: fontFamily ?? bodyFont,
           shadows: shadows,
           decoration: textDecoration,
           decorationColor: underLineColor ?? AppColors.black,
