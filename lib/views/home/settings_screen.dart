@@ -3,14 +3,15 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:petguardian/resources/constants/app_colors.dart';
 import 'package:petguardian/resources/constants/constants.dart';
+import 'package:petguardian/resources/routes/routes_name.dart';
+import 'package:petguardian/resources/utils.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../resources/constants/app_icons.dart';
-import '../../resources/constants/app_images.dart';
 import '../../resources/widgets/app_text_widget.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class SettingsScreen extends StatelessWidget {
+  const SettingsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,34 +23,35 @@ class HomeScreen extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Expanded(child: Divider()),
-                  AppTextWidget(
-                    text: 'Home',
-                    fontWeight: FontWeight.w500,
-                    fontSize: 17.5,
-                    padding: EdgeInsets.symmetric(horizontal: 4.w),
+                  GestureDetector(
+                    onTap: () => Get.back(),
+                    child: SizedBox(height: 5.5.h, width: 11.w, child: SvgPicture.asset(AppIcons.backButton)),
                   ),
-                  Expanded(child: Divider()),
+                  SizedBox(width: 5.w),
+                  AppTextWidget(text: 'Settings', fontWeight: FontWeight.w500, fontSize: 17.5),
                 ],
-              ),
-              SizedBox(height: 2.h),
-              Container(
-                padding: EdgeInsets.symmetric(vertical: 1.6.h),
-                decoration: BoxDecoration(color: AppColors.secondary, borderRadius: BorderRadius.circular(8)),
-                child: AppTextWidget(
-                  text: 'Go Premium — Enjoy an Ad-Free Experience! 👑',
-                  height: 1.3,
-                  fontSize: 15,
-                  fontFamily: headingFont,
-                ),
               ),
               SizedBox(height: 3.h),
               Expanded(
                 child: ListView.builder(
-                  itemCount: homeTextList.length,
+                  itemCount: settingsTextList.length,
                   itemBuilder: (context, index) {
                     return GestureDetector(
-                      onTap: homeNavigateList[index],
+                      onTap:
+                          () =>
+                              index == 0
+                                  ? Utils().showConfirmDialog(
+                                    title: "Logout",
+                                    description: "Are you sure you want to logout?",
+                                    onConfirm: () => Get.toNamed(RoutesName.welcomeScreen),
+                                  )
+                                  : Utils().showConfirmDialog(
+                                    title: "Delete Account",
+                                    description:
+                                        "This action is permanent. Are you sure you want to delete your account?",
+                                    onConfirm: () => Get.toNamed(RoutesName.welcomeScreen),
+                                  ),
+
                       child: Container(
                         padding: EdgeInsets.symmetric(vertical: 1.5.h, horizontal: 3.w),
                         margin: EdgeInsets.only(bottom: 2.h), // Add spacing between list items
@@ -62,13 +64,13 @@ class HomeScreen extends StatelessWidget {
                             CircleAvatar(
                               backgroundColor: AppColors.secondary,
                               child: SvgPicture.asset(
-                                homeIconsList[index],
+                                settingsIconsList[index],
                                 height: 20,
                                 color: AppColors.black,
                               ),
                             ),
                             SizedBox(width: 3.w),
-                            AppTextWidget(text: homeTextList[index], fontWeight: FontWeight.w600),
+                            AppTextWidget(text: settingsTextList[index], fontWeight: FontWeight.w600),
                             Spacer(),
                             AppTextWidget(text: '→', fontFamily: headingFont, fontSize: 20),
                           ],

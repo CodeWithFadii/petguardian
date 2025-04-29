@@ -33,7 +33,7 @@ class DashboardNavbar extends StatelessWidget {
                 ),
                 Expanded(
                   flex: 1,
-                  child: DashboardNavItem(icon: AppIcons.activity, title: 'Activity', index: 1),
+                  child: DashboardNavItem(icon: AppIcons.activity, title: 'My Pets', index: 1),
                 ),
                 Expanded(
                   flex: 1,

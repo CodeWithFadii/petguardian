@@ -5,8 +5,15 @@ class RoutesName {
   static const String dashboard = '/dashboard';
   static const String homeScreen = '/homeScreen';
   static const String addPetScreen = '/addPetScreen';
+  static const String editPetScreen = '/editPetScreen';
   static const String loginScreen = '/loginScreen';
   static const String signupScreen = '/signupScreen';
   static const String verifyOtpScreen = '/verifyOtpScreen';
   static const String welcomeScreen = '/welcomeScreen';
+  static const String settingsScreen = '/settingsScreen';
+  static const String groomingScreen = '/groomingScreen';
+  static const String galleryScreen = '/galleryScreen';
+  static const String feedingScreen = '/feedingScreen';
+  static const String healthScreen = '/healthScreen';
+  static const String activityScreen = '/activityScreen';
 }

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:petguardian/resources/constants/constants.dart';
+import 'package:sizer/sizer.dart';
 
 import '../resources/widgets/icon_snackbar.dart';
 
@@ -82,5 +85,40 @@ class Utils {
 
   static Color getColorWithOpacity({required Color color, required double opacity}) {
     return color.withAlpha((opacity * 255).toInt());
+  }
+
+  void showConfirmDialog({
+    required String title,
+    required String description,
+    required VoidCallback onConfirm,
+  }) {
+    Get.defaultDialog(
+      title: title,
+      titlePadding: EdgeInsets.only(top: 2.h),
+      titleStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, fontFamily: bodyFont),
+      content: Padding(
+        padding: EdgeInsets.symmetric(vertical: 1.h, horizontal: 5.w),
+        child: Text(
+          description,
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 14, fontFamily: bodyFont),
+        ),
+      ),
+      radius: 10,
+      confirm: Padding(
+        padding: EdgeInsets.only(bottom: 1.5.h),
+        child: ElevatedButton(
+          onPressed: () {
+            Get.back(); // close the dialog
+            onConfirm();
+          },
+          child: Text("Yes"),
+        ),
+      ),
+      cancel: Padding(
+        padding: EdgeInsets.only(bottom: 1.5.h),
+        child: TextButton(onPressed: () => Get.back(), child: Text("Cancel")),
+      ),
+    );
   }
 }

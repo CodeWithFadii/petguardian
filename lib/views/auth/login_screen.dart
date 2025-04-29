@@ -77,7 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
 
               SizedBox(height: 7.h),
-              AppButtonWidget(text: 'Login', onTap: () => Get.toNamed(RoutesName.signupScreen)),
+              AppButtonWidget(text: 'Login', onTap: () => Get.toNamed(RoutesName.dashboard)),
               SizedBox(height: 1.5.h),
               RichText(
                 text: TextSpan(

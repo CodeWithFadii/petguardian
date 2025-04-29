@@ -24,8 +24,27 @@ class AddPetInfoController extends GetxController {
 
   void pickImages() async {
     final result = await FilePicker.platform.pickFiles(type: FileType.image, allowMultiple: true);
+
     if (result != null && result.files.isNotEmpty) {
-      _selectedImages.assignAll(result.files.map((f) => File(f.path!)).toList());
+      final newImages = result.files.map((f) => File(f.path!)).toList();
+      final totalImages = _selectedImages.length + newImages.length;
+
+      if (totalImages > 3) {
+        Get.snackbar(
+          'Limit Exceeded',
+          'You can only select up to ${3} images. Please select fewer images.',
+          snackPosition: SnackPosition.BOTTOM,
+        );
+        return;
+      }
+
+      _selectedImages.addAll(newImages);
+    }
+  }
+
+  void removeImage(int index) {
+    if (index >= 0 && index < _selectedImages.length) {
+      _selectedImages.removeAt(index);
     }
   }
 
