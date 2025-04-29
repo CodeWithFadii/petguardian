@@ -2,9 +2,13 @@ import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:petguardian/resources/constants/app_bindings.dart';
 import 'package:petguardian/resources/routes/routes_name.dart';
 import 'package:petguardian/views/activity/add_pet_screen.dart';
+import 'package:petguardian/views/auth/login_screen.dart';
+import 'package:petguardian/views/auth/signup_screen.dart';
+import 'package:petguardian/views/auth/verify_otp_screen.dart';
 import 'package:petguardian/views/dashboard/dashboard.dart';
 import 'package:petguardian/views/home/home_screen.dart';
 
+import '../../views/auth/welcome_screen.dart';
 import '../../views/onboarding/onboarding_screen.dart';
 import '../../views/splash/splash_screen.dart';
 
@@ -15,5 +19,9 @@ class Routes {
     GetPage(name: RoutesName.dashboard, page: () => Dashboard(), binding: DashboardBinding()),
     GetPage(name: RoutesName.homeScreen, page: () => HomeScreen()),
     GetPage(name: RoutesName.addPetScreen, page: () => AddPetScreen(), binding: AddPetInfoBinding()),
+    GetPage(name: RoutesName.signupScreen, page: () => SignupScreen(), binding: AuthBinding()),
+    GetPage(name: RoutesName.loginScreen, page: () => LoginScreen()),
+    GetPage(name: RoutesName.verifyOtpScreen, page: () => VerifyOtpScreen()),
+    GetPage(name: RoutesName.welcomeScreen, page: () => WelcomeScreen()),
   ];
 }

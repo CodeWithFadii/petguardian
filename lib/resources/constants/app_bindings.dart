@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import '../../controllers/add_pet_info_controller.dart';
+import '../../controllers/auth_controller.dart';
 import '../../controllers/dashboard_controller.dart';
 import '../utils.dart';
 import '../widgets/loader.dart';
@@ -23,5 +24,12 @@ class AddPetInfoBinding extends Bindings {
   @override
   void dependencies() {
     Get.put(AddPetInfoController());
+  }
+}
+
+class AuthBinding extends Bindings {
+  @override
+  void dependencies() {
+    Get.put(AuthController());
   }
 }

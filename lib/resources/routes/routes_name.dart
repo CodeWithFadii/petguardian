@@ -5,4 +5,8 @@ class RoutesName {
   static const String dashboard = '/dashboard';
   static const String homeScreen = '/homeScreen';
   static const String addPetScreen = '/addPetScreen';
+  static const String loginScreen = '/loginScreen';
+  static const String signupScreen = '/signupScreen';
+  static const String verifyOtpScreen = '/verifyOtpScreen';
+  static const String welcomeScreen = '/welcomeScreen';
 }

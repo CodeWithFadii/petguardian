@@ -9,6 +9,7 @@ class AppTheme {
       primaryColor: AppColors.primary,
       fontFamily: 'Poppins',
       useMaterial3: true,
+      appBarTheme: AppBarTheme(backgroundColor: Colors.transparent, elevation: 0),
       scaffoldBackgroundColor: AppColors.bg,
     );
   }

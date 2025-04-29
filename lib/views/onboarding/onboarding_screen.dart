@@ -60,7 +60,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   void _navigate() {
     if (mounted) {
-      Get.offAllNamed(RoutesName.dashboard);
+      Get.offAllNamed(RoutesName.welcomeScreen);
     }
   }
 

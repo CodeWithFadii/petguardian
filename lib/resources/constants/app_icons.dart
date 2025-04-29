@@ -6,4 +6,5 @@ class AppIcons {
   static const String notificationOutline = 'assets/icons/notification_outline.svg';
   static const String backButton = 'assets/icons/back_button.svg';
   static const String announcement = 'assets/icons/announcement.svg';
+  static const String google = 'assets/icons/google.svg';
 }
