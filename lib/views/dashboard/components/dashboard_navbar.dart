@@ -14,41 +14,26 @@ class DashboardNavbar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 1.3.h),
-      margin: EdgeInsets.symmetric(vertical: 2.5.h, horizontal: 4.w),
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(64), color: AppColors.white),
+      margin: EdgeInsets.symmetric(vertical: 2.5.h, horizontal: 5.w),
+      decoration: BoxDecoration(color: AppColors.white, borderRadius: BorderRadius.circular(8)),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Obx(() {
-            return Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Expanded(
-                  flex: 1,
-                  child: DashboardNavItem(
-                    icon: dashboardC.selectedIndex == 0 ? AppIcons.homeFilled : AppIcons.homeOutlined,
-                    title: 'Home',
-                    index: 0,
-                  ),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: DashboardNavItem(icon: AppIcons.activity, title: 'My Pets', index: 1),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: DashboardNavItem(
-                    icon:
-                        dashboardC.selectedIndex == 2
-                            ? AppIcons.notificationFilled
-                            : AppIcons.notificationOutline,
-                    title: 'Reminders',
-                    index: 2,
-                  ),
-                ),
-              ],
-            );
-          }),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Expanded(
+                flex: 8,
+                child: DashboardNavItem(icon: AppIcons.homeOutlined, title: 'Home', index: 0),
+              ),
+              Expanded(flex: 8, child: DashboardNavItem(icon: AppIcons.activity, title: 'My Pets', index: 1)),
+              Expanded(flex: 8, child: DashboardNavItem(icon: AppIcons.forum, title: 'Forum', index: 2)),
+              Expanded(
+                flex: 11,
+                child: DashboardNavItem(icon: AppIcons.notificationOutline, title: 'Notifications', index: 3),
+              ),
+            ],
+          ),
         ],
       ),
     );

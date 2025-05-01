@@ -9,6 +9,7 @@ import '../../controllers/activity_controller.dart';
 import '../../controllers/add_pet_info_controller.dart';
 import '../../controllers/dashboard_controller.dart';
 import '../../controllers/feeding_controller.dart';
+import '../../controllers/forum_controller.dart';
 import '../../controllers/grooming_controller.dart';
 import '../../controllers/health_controller.dart';
 import '../widgets/loader.dart';
@@ -23,6 +24,7 @@ FeedingController get feedingC => Get.find<FeedingController>();
 GroomingController get groomingC => Get.find<GroomingController>();
 HealthController get healthC => Get.find<HealthController>();
 ActivityController get activityC => Get.find<ActivityController>();
+ForumController get forumC => Get.find<ForumController>();
 
 const String bodyFont = 'Poppins';
 const String headingFont = 'MochiyPopOne';

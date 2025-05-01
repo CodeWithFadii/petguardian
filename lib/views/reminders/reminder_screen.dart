@@ -37,7 +37,7 @@ class ReminderScreen extends StatelessWidget {
                 children: [
                   Expanded(child: Divider()),
                   AppTextWidget(
-                    text: 'Reminders',
+                    text: 'Notifications',
                     fontWeight: FontWeight.w500,
                     fontSize: 17.5,
                     padding: EdgeInsets.symmetric(horizontal: 4.w),

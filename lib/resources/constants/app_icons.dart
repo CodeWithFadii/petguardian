@@ -16,4 +16,5 @@ class AppIcons {
   static const String settings = 'assets/icons/settings.svg';
   static const String delete = 'assets/icons/delete.svg';
   static const String logout = 'assets/icons/logout.svg';
+  static const String forum = 'assets/icons/forum.svg';
 }

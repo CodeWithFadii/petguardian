@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
           title: 'Pet Guardian',
           debugShowCheckedModeBanner: false,
           theme: AppTheme.theme,
-          initialRoute: RoutesName.splashScreen,
+          initialRoute: RoutesName.dashboard,
           getPages: Routes.routes,
         );
       },

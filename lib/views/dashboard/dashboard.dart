@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:petguardian/views/forum/forum_screen.dart';
 import 'package:petguardian/views/home/home_screen.dart';
 import 'package:petguardian/views/my_pets/my_pets_screen.dart';
 
@@ -18,7 +19,8 @@ class Dashboard extends StatelessWidget {
           alignment: Alignment.bottomCenter,
           children: [
             Obx(() {
-              return [HomeScreen(), MyPetsScreen(), ReminderScreen()][dashboardC.selectedIndex];
+              return [HomeScreen(), MyPetsScreen(), ForumScreen(), ReminderScreen()][dashboardC
+                  .selectedIndex];
             }),
             DashboardNavbar(),
           ],
