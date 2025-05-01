@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:petguardian/controllers/gallery_controller.dart';
+import 'package:petguardian/controllers/otp_controller.dart';
 import '../../controllers/activity_controller.dart';
 import '../../controllers/add_pet_info_controller.dart';
 import '../../controllers/auth_controller.dart';
@@ -36,6 +37,7 @@ class AuthBinding extends Bindings {
   @override
   void dependencies() {
     Get.put(AuthController());
+    Get.put(OTPController());
   }
 }
 

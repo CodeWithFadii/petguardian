@@ -3,7 +3,9 @@ import 'dart:ui';
 import 'package:get/get.dart';
 import 'package:petguardian/controllers/auth_controller.dart';
 import 'package:petguardian/controllers/gallery_controller.dart';
+import 'package:petguardian/controllers/otp_controller.dart';
 import 'package:petguardian/resources/routes/routes_name.dart';
+import 'package:fpdart/fpdart.dart';
 
 import '../../controllers/activity_controller.dart';
 import '../../controllers/add_pet_info_controller.dart';
@@ -23,6 +25,7 @@ FeedingController get feedingC => Get.find<FeedingController>();
 GroomingController get groomingC => Get.find<GroomingController>();
 HealthController get healthC => Get.find<HealthController>();
 ActivityController get activityC => Get.find<ActivityController>();
+OTPController get otpC => Get.find<OTPController>();
 
 const String bodyFont = 'Poppins';
 const String headingFont = 'MochiyPopOne';
@@ -46,3 +49,13 @@ List<VoidCallback> homeNavigateList = [
   () => Get.toNamed(RoutesName.activityScreen),
   () => Get.toNamed(RoutesName.galleryScreen),
 ];
+
+enum UserType { email, google, facebook, apple }
+
+class Failure {
+  final String message;
+  Failure(this.message);
+}
+
+typedef FutureEither<T> = Future<Either<Failure, T>>;
+typedef FutureVoid = FutureEither<void>;

@@ -7,6 +7,7 @@ import 'package:sizer/sizer.dart';
 import '../../resources/constants/app_colors.dart';
 import '../../resources/constants/app_icons.dart';
 import '../../resources/constants/app_images.dart';
+import '../../resources/constants/constants.dart';
 import '../../resources/widgets/app_button_widget.dart';
 import '../../resources/widgets/app_text_widget.dart';
 
@@ -49,7 +50,7 @@ class WelcomeScreen extends StatelessWidget {
                 text: 'Continue with Google',
                 color: AppColors.secondary,
                 onTap: () {
-                  Get.toNamed(RoutesName.dashboard);
+                  authC.continueWithGoogle(context: context);
                 },
               ),
             ],
