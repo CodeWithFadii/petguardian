@@ -14,6 +14,7 @@ import '../../views/auth/welcome_screen.dart';
 import '../../views/forum/add_post_screen.dart';
 import '../../views/forum/edit_post_screen.dart';
 import '../../views/forum/forum_screen.dart';
+import '../../views/forum/other_user_profile.dart';
 import '../../views/home/activity_screen.dart';
 import '../../views/home/feeding_screen.dart';
 import '../../views/home/gallery_screen.dart';
@@ -22,6 +23,7 @@ import '../../views/home/health_screen.dart';
 import '../../views/home/profile_screen.dart';
 import '../../views/home/settings_screen.dart';
 import '../../views/my_pets/add_pet_screen.dart';
+import '../../views/my_pets/pet_detail_screen.dart';
 import '../../views/onboarding/onboarding_screen.dart';
 import '../../views/splash/splash_screen.dart';
 
@@ -47,6 +49,8 @@ class Routes {
     GetPage(name: RoutesName.forumScreen, page: () => ForumScreen()),
     GetPage(name: RoutesName.myPostsScreen, page: () => MyPostsScreen()),
     GetPage(name: RoutesName.profileScreen, page: () => ProfileScreen()),
+    GetPage(name: RoutesName.otherUserProfile, page: () => OtherUserProfile()),
+    GetPage(name: RoutesName.petDetailScreen, page: () => PetDetailScreen()),
     GetPage(name: RoutesName.addPostScreen, page: () => AddPostScreen(), binding: ForumBinding()),
     GetPage(name: RoutesName.editPostScreen, page: () => EditPostScreen(), binding: ForumBinding()),
   ];

@@ -49,15 +49,23 @@ class ForumScreen extends StatelessWidget {
                           Row(
                             spacing: 10,
                             children: [
-                              CircleAvatar(
-                                backgroundColor: AppColors.secondary,
-                                child: AppTextWidget(text: 'F', fontFamily: headingFont),
-                              ),
-                              AppTextWidget(
-                                text: 'Fahad Ali',
-                                fontWeight: FontWeight.w600,
-                                fontSize: 15,
-                                fontFamily: headingFont,
+                              GestureDetector(
+                                onTap: () => Get.toNamed(RoutesName.otherUserProfile),
+                                child: Row(
+                                  spacing: 10,
+                                  children: [
+                                    CircleAvatar(
+                                      backgroundColor: AppColors.secondary,
+                                      child: AppTextWidget(text: 'F', fontFamily: headingFont),
+                                    ),
+                                    AppTextWidget(
+                                      text: 'Fahad Ali',
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 15,
+                                      fontFamily: headingFont,
+                                    ),
+                                  ],
+                                ),
                               ),
                               Spacer(),
                               GestureDetector(
