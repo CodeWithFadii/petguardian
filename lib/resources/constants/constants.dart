@@ -29,15 +29,25 @@ ForumController get forumC => Get.find<ForumController>();
 const String bodyFont = 'Poppins';
 const String headingFont = 'MochiyPopOne';
 
-const List<String> homeTextList = ['Settings', 'Feeding', 'Grooming', 'Health', 'Activity', 'Gallery'];
+const List<String> homeTextList = [
+  'Settings',
+  'Feeding',
+  'Grooming',
+  'Health',
+  // , 'Activity'
+  'Gallery',
+  'My Posts',
+];
 const List<String> settingsTextList = ['Profile', 'Logout', 'Delete Account'];
 const List<String> homeIconsList = [
   AppIcons.settings,
   AppIcons.food,
   AppIcons.grooming,
   AppIcons.health,
-  AppIcons.activityHome,
+
+  // AppIcons.activityHome,
   AppIcons.gallery,
+  AppIcons.forum,
 ];
 const List<String> settingsIconsList = [AppIcons.profile, AppIcons.logout, AppIcons.delete];
 List<VoidCallback> homeNavigateList = [
@@ -45,6 +55,8 @@ List<VoidCallback> homeNavigateList = [
   () => Get.toNamed(RoutesName.feedingScreen),
   () => Get.toNamed(RoutesName.groomingScreen),
   () => Get.toNamed(RoutesName.healthScreen),
-  () => Get.toNamed(RoutesName.activityScreen),
+
+  // () => Get.toNamed(RoutesName.activityScreen),
   () => Get.toNamed(RoutesName.galleryScreen),
+  () => Get.toNamed(RoutesName.myPostsScreen),
 ];

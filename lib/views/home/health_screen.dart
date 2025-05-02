@@ -7,7 +7,9 @@ import 'package:petguardian/resources/widgets/app_text_widget.dart';
 import 'package:intl/intl.dart';
 
 import '../../controllers/health_controller.dart';
-import '../../resources/constants/constants.dart'; // Assuming this exists
+import '../../resources/constants/app_colors.dart';
+import '../../resources/constants/constants.dart';
+import 'components/my_dogs_list_widget.dart'; // Assuming this exists
 
 class HealthScreen extends StatelessWidget {
   const HealthScreen({super.key});
@@ -44,8 +46,17 @@ class HealthScreen extends StatelessWidget {
                   () => Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      AppTextWidget(text: 'Set Reminder', fontSize: 16.5, fontWeight: FontWeight.w600),
+                      AppTextWidget(
+                        text: 'Set Reminder',
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: headingFont,
+                      ),
+                      SizedBox(height: 3.h),
                       SwitchListTile(
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                        tileColor: Colors.white,
+                        contentPadding: EdgeInsets.symmetric(horizontal: 4.w),
                         value: healthC.reminderEnabled.value,
                         onChanged: (val) => healthC.reminderEnabled.value = val,
                         title: Text(healthC.reminderEnabled.value ? 'Disable Reminder' : 'Enable Reminder'),
@@ -56,8 +67,13 @@ class HealthScreen extends StatelessWidget {
                 SizedBox(height: 3.h),
 
                 /// Health Schedule
-                AppTextWidget(text: 'Health Schedule', fontSize: 16.5, fontWeight: FontWeight.w600),
-                SizedBox(height: 2.h),
+                AppTextWidget(
+                  text: 'Health Schedule',
+                  fontSize: 15,
+                  fontWeight: FontWeight.w600,
+                  fontFamily: headingFont,
+                ),
+                SizedBox(height: 3.h),
                 Obx(
                   () => Column(
                     children:
@@ -65,34 +81,60 @@ class HealthScreen extends StatelessWidget {
                           int index = entry.key;
                           HealthActivity activity = entry.value;
                           final info = getDueDateInfo(activity);
-                          return Row(
-                            children: [
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [AppTextWidget(text: activity.name.value)],
-                                ),
+                          return Padding(
+                            padding: EdgeInsets.only(bottom: 1.h),
+                            child: ListTile(
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                              tileColor: Colors.white,
+                              contentPadding: EdgeInsets.only(left: 4.w),
+                              leading: AppTextWidget(text: activity.name.value),
+                              trailing: PopupMenuButton<String>(
+                                icon: Icon(Icons.more_vert, color: AppColors.black),
+                                onSelected: (String result) async {
+                                  switch (result) {
+                                    case 'Mark Complete':
+                                      showModalBottomSheet(
+                                        context: context,
+                                        useSafeArea: true,
+                                        isScrollControlled: true,
+                                        builder: (context) {
+                                          return MyDogsListWidget();
+                                        },
+                                      );
+                                    case 'Mark UnComplete':
+                                      feedingC.todayStatus[index] = false;
+                                    case 'Edit':
+                                      showAddEditDialog(context, activity);
+                                    case 'Delete':
+                                      healthC.removeActivity(index);
+                                  }
+                                },
+                                itemBuilder:
+                                    (BuildContext context) => <PopupMenuEntry<String>>[
+                                      PopupMenuItem<String>(
+                                        value: 'Mark Complete',
+                                        child: Text('Mark Complete'),
+                                      ),
+                                      const PopupMenuItem<String>(value: 'Edit', child: Text('Edit')),
+                                      const PopupMenuItem<String>(value: 'Delete', child: Text('Delete')),
+                                    ],
                               ),
-
-                              IconButton(
-                                icon: Icon(Icons.edit, size: 16),
-                                onPressed: () => showAddEditDialog(context, activity),
-                              ),
-                              IconButton(
-                                icon: Icon(Icons.remove_circle, color: Colors.red),
-                                onPressed: () => healthC.removeActivity(index),
-                              ),
-                            ],
+                            ),
                           );
                         }).toList(),
                   ),
                 ),
-                SizedBox(height: 1.h),
+                SizedBox(height: 2.h),
                 GestureDetector(
                   onTap: () => showAddEditDialog(context),
                   child: Row(
                     children: [
-                      AppTextWidget(text: 'Add Activity', fontWeight: FontWeight.w600),
+                      AppTextWidget(
+                        text: 'Add Activity',
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: headingFont,
+                      ),
                       SizedBox(width: 2.w),
                       Icon(Icons.add_box_outlined),
                     ],

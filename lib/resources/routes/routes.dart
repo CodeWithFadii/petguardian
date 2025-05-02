@@ -5,12 +5,14 @@ import 'package:petguardian/views/auth/login_screen.dart';
 import 'package:petguardian/views/auth/signup_screen.dart';
 import 'package:petguardian/views/auth/verify_otp_screen.dart';
 import 'package:petguardian/views/dashboard/dashboard.dart';
+import 'package:petguardian/views/forum/my_posts_screen.dart';
 import 'package:petguardian/views/home/home_screen.dart';
 import 'package:petguardian/views/my_pets/edit_pet_screen.dart';
 
 import '../../controllers/forum_controller.dart';
 import '../../views/auth/welcome_screen.dart';
 import '../../views/forum/add_post_screen.dart';
+import '../../views/forum/edit_post_screen.dart';
 import '../../views/forum/forum_screen.dart';
 import '../../views/home/activity_screen.dart';
 import '../../views/home/feeding_screen.dart';
@@ -43,7 +45,9 @@ class Routes {
     GetPage(name: RoutesName.healthScreen, page: () => HealthScreen(), binding: HealthBinding()),
     GetPage(name: RoutesName.activityScreen, page: () => ActivityScreen(), binding: ActivityBinding()),
     GetPage(name: RoutesName.forumScreen, page: () => ForumScreen()),
+    GetPage(name: RoutesName.myPostsScreen, page: () => MyPostsScreen()),
     GetPage(name: RoutesName.profileScreen, page: () => ProfileScreen()),
     GetPage(name: RoutesName.addPostScreen, page: () => AddPostScreen(), binding: ForumBinding()),
+    GetPage(name: RoutesName.editPostScreen, page: () => EditPostScreen(), binding: ForumBinding()),
   ];
 }
