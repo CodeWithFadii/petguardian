@@ -17,6 +17,7 @@ import '../../views/home/feeding_screen.dart';
 import '../../views/home/gallery_screen.dart';
 import '../../views/home/grooming_screen.dart';
 import '../../views/home/health_screen.dart';
+import '../../views/home/profile_screen.dart';
 import '../../views/home/settings_screen.dart';
 import '../../views/my_pets/add_pet_screen.dart';
 import '../../views/onboarding/onboarding_screen.dart';
@@ -42,6 +43,7 @@ class Routes {
     GetPage(name: RoutesName.healthScreen, page: () => HealthScreen(), binding: HealthBinding()),
     GetPage(name: RoutesName.activityScreen, page: () => ActivityScreen(), binding: ActivityBinding()),
     GetPage(name: RoutesName.forumScreen, page: () => ForumScreen()),
+    GetPage(name: RoutesName.profileScreen, page: () => ProfileScreen()),
     GetPage(name: RoutesName.addPostScreen, page: () => AddPostScreen(), binding: ForumBinding()),
   ];
 }

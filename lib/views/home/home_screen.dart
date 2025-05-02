@@ -20,18 +20,6 @@ class HomeScreen extends StatelessWidget {
           padding: EdgeInsets.symmetric(vertical: 3.h, horizontal: 5.w),
           child: Column(
             children: [
-              Row(
-                children: [
-                  Expanded(child: Divider()),
-                  AppTextWidget(
-                    text: 'Home',
-                    fontWeight: FontWeight.w500,
-                    fontSize: 17.5,
-                    padding: EdgeInsets.symmetric(horizontal: 4.w),
-                  ),
-                  Expanded(child: Divider()),
-                ],
-              ),
               SizedBox(height: 2.h),
               Container(
                 padding: EdgeInsets.symmetric(vertical: 1.6.h),

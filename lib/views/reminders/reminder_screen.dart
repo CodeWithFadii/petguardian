@@ -33,19 +33,7 @@ class ReminderScreen extends StatelessWidget {
           padding: EdgeInsets.symmetric(vertical: 3.h, horizontal: 6.w),
           child: Column(
             children: [
-              Row(
-                children: [
-                  Expanded(child: Divider()),
-                  AppTextWidget(
-                    text: 'Notifications',
-                    fontWeight: FontWeight.w500,
-                    fontSize: 17.5,
-                    padding: EdgeInsets.symmetric(horizontal: 4.w),
-                  ),
-                  Expanded(child: Divider()),
-                ],
-              ),
-              SizedBox(height: 3.h),
+              SizedBox(height: 2.h),
               Expanded(
                 child: ListView.builder(
                   itemCount: mockNotifications.length,

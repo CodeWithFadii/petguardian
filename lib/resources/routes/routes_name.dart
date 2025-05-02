@@ -18,4 +18,5 @@ class RoutesName {
   static const String activityScreen = '/activityScreen';
   static const String forumScreen = '/forumScreen';
   static const String addPostScreen = '/addPostScreen';
+  static const String profileScreen = '/profileScreen';
 }

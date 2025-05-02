@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:petguardian/resources/constants/app_images.dart';
+import 'package:petguardian/resources/constants/constants.dart';
 import 'package:petguardian/resources/routes/routes_name.dart';
 import 'package:sizer/sizer.dart';
 
@@ -27,18 +28,6 @@ class MyPetsScreen extends StatelessWidget {
           padding: EdgeInsets.symmetric(vertical: 3.h, horizontal: 6.w),
           child: Column(
             children: [
-              Row(
-                children: [
-                  Expanded(child: Divider()),
-                  AppTextWidget(
-                    text: 'My Pets',
-                    fontWeight: FontWeight.w500,
-                    fontSize: 17.5,
-                    padding: EdgeInsets.symmetric(horizontal: 4.w),
-                  ),
-                  Expanded(child: Divider()),
-                ],
-              ),
               SizedBox(height: 2.h),
               Expanded(
                 child: ListView.builder(
@@ -46,7 +35,7 @@ class MyPetsScreen extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return Container(
                       margin: EdgeInsets.only(top: 2.h),
-                      padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.4.h),
+                      padding: EdgeInsets.only(left: 3.w, top: 1.4.h, bottom: 1.4.h),
                       decoration: BoxDecoration(
                         color: AppColors.white,
                         borderRadius: BorderRadius.circular(12),
@@ -59,17 +48,49 @@ class MyPetsScreen extends StatelessWidget {
                           ),
                           SizedBox(width: 3.w),
                           AppTextWidget(
+                            fontFamily: headingFont,
                             text: index == 0 ? 'Jackie' : 'Alee',
-                            fontSize: 16.5,
+                            fontSize: 16,
                             fontWeight: FontWeight.w600,
                           ),
                           Spacer(),
-                          GestureDetector(
-                            onTap: () => Get.toNamed(RoutesName.editPetScreen),
-                            child: CircleAvatar(
-                              backgroundColor: AppColors.bg,
-                              child: Icon(Icons.settings_outlined, color: AppColors.black),
-                            ),
+                          PopupMenuButton<String>(
+                            icon: Icon(Icons.more_vert, color: AppColors.black),
+                            onSelected: (String result) {
+                              if (result == 'Edit') {
+                                Get.toNamed(RoutesName.editPetScreen);
+                              } else if (result == 'Delete') {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text('Delete Pet'),
+                                      content: Text('Are you sure you want to delete this pet?'),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          child: Text('Cancel'),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                        ),
+                                        TextButton(
+                                          child: Text('Delete'),
+                                          onPressed: () {
+                                            // Perform delete operation here
+                                            Navigator.of(context).pop();
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              }
+                            },
+                            itemBuilder:
+                                (BuildContext context) => <PopupMenuEntry<String>>[
+                                  const PopupMenuItem<String>(value: 'Edit', child: Text('Edit')),
+                                  const PopupMenuItem<String>(value: 'Delete', child: Text('Delete')),
+                                ],
                           ),
                         ],
                       ),
@@ -77,14 +98,6 @@ class MyPetsScreen extends StatelessWidget {
                   },
                 ),
               ),
-              // Expanded(
-              //   child: AppTextWidget(
-              //     height: 1.3,
-              //     padding: EdgeInsets.symmetric(horizontal: 10.w),
-              //     text: 'No pets here – time to add your first furry friend!',
-              //     fontWeight: FontWeight.w600,
-              //   ),
-              // ),
             ],
           ),
         ),

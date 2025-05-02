@@ -30,7 +30,7 @@ const String bodyFont = 'Poppins';
 const String headingFont = 'MochiyPopOne';
 
 const List<String> homeTextList = ['Settings', 'Feeding', 'Grooming', 'Health', 'Activity', 'Gallery'];
-const List<String> settingsTextList = ['Logout', 'Delete Account'];
+const List<String> settingsTextList = ['Profile', 'Logout', 'Delete Account'];
 const List<String> homeIconsList = [
   AppIcons.settings,
   AppIcons.food,
@@ -39,7 +39,7 @@ const List<String> homeIconsList = [
   AppIcons.activityHome,
   AppIcons.gallery,
 ];
-const List<String> settingsIconsList = [AppIcons.logout, AppIcons.delete];
+const List<String> settingsIconsList = [AppIcons.profile, AppIcons.logout, AppIcons.delete];
 List<VoidCallback> homeNavigateList = [
   () => Get.toNamed(RoutesName.settingsScreen),
   () => Get.toNamed(RoutesName.feedingScreen),
