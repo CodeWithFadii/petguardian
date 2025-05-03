@@ -17,4 +17,7 @@ class AppIcons {
   static const String delete = 'assets/icons/delete.svg';
   static const String logout = 'assets/icons/logout.svg';
   static const String forum = 'assets/icons/forum.svg';
+  static const String comment = 'assets/icons/comment.svg';
+  static const String like = 'assets/icons/like.svg';
+  static const String likedFilled = 'assets/icons/like_filled.svg';
 }

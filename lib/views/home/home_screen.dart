@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:get/get.dart';
 import 'package:petguardian/resources/constants/app_colors.dart';
 import 'package:petguardian/resources/constants/constants.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../resources/constants/app_icons.dart';
-import '../../resources/constants/app_images.dart';
 import '../../resources/widgets/app_text_widget.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -22,7 +19,7 @@ class HomeScreen extends StatelessWidget {
             children: [
               SizedBox(height: 2.h),
               Container(
-                padding: EdgeInsets.symmetric(vertical: 1.6.h),
+                padding: EdgeInsets.symmetric(vertical: 1.6.h, horizontal: 4.w),
                 decoration: BoxDecoration(color: AppColors.secondary, borderRadius: BorderRadius.circular(8)),
                 child: AppTextWidget(
                   text: 'Go Premium — Enjoy an Ad-Free Experience! 👑',

@@ -4,4 +4,5 @@ class AppImages {
   static const String dog = 'assets/images/dog.jpeg';
   static const String cat = 'assets/images/cat.jpeg';
   static const String person = 'assets/images/person.jpg';
+  static const String dogPost = 'assets/images/dog_post.jpg';
 }

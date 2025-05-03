@@ -42,20 +42,22 @@ class AppTextWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: padding ?? EdgeInsets.zero,
-      child: Text(
-        text,
-        textAlign: textAlign,
-        softWrap: softWrap,
-        overflow: overflow,
-        style: TextStyle(
-          fontFamily: fontFamily ?? bodyFont,
-          shadows: shadows,
-          decoration: textDecoration,
-          decorationColor: underLineColor ?? AppColors.black,
-          fontWeight: fontWeight,
-          height: height,
-          fontSize: fontSize?.sp ?? 16.sp,
-          color: color ?? AppColors.black,
+      child: RepaintBoundary(
+        child: Text(
+          text,
+          textAlign: textAlign,
+          softWrap: softWrap,
+          overflow: overflow,
+          style: TextStyle(
+            fontFamily: fontFamily ?? bodyFont,
+            shadows: shadows,
+            decoration: textDecoration,
+            decorationColor: underLineColor ?? AppColors.black,
+            fontWeight: fontWeight,
+            height: height,
+            fontSize: fontSize?.sp ?? 16.sp,
+            color: color ?? AppColors.black,
+          ),
         ),
       ),
     );

@@ -15,13 +15,14 @@ class Dashboard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Stack(
-          alignment: Alignment.bottomCenter,
+        child: Column(
           children: [
-            Obx(() {
-              return [HomeScreen(), MyPetsScreen(), ForumScreen(), ReminderScreen()][dashboardC
-                  .selectedIndex];
-            }),
+            Expanded(
+              child: Obx(() {
+                return [HomeScreen(), MyPetsScreen(), ForumScreen(), ReminderScreen()][dashboardC
+                    .selectedIndex];
+              }),
+            ),
             DashboardNavbar(),
           ],
         ),

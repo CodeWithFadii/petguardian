@@ -13,7 +13,7 @@ class AddPostScreen extends StatefulWidget {
   const AddPostScreen({super.key});
 
   @override
-  _AddPostScreenState createState() => _AddPostScreenState();
+  State<AddPostScreen> createState() => _AddPostScreenState();
 }
 
 class _AddPostScreenState extends State<AddPostScreen> {
@@ -58,68 +58,80 @@ class _AddPostScreenState extends State<AddPostScreen> {
                       SizedBox(height: 3.h),
 
                       /// Image Picker Section
-                      GestureDetector(
-                        onTap: forumC.pickImages,
-                        child: Container(
-                          width: double.infinity,
-                          padding: EdgeInsets.symmetric(vertical: 3.h),
-                          child: Obx(
-                            () =>
-                                forumC.selectedImages.isEmpty
-                                    ? Column(
-                                      children: [
-                                        Icon(Icons.add_a_photo, size: 4.h, color: Colors.grey),
-                                        SizedBox(height: 1.h),
-                                        Text(
-                                          "Tap to pick images (Max 3)",
-                                          style: TextStyle(color: Colors.grey),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: GestureDetector(
+                          onTap: forumC.pickImages,
+                          child: Container(
+                            width: double.infinity,
+                            padding: EdgeInsets.symmetric(vertical: 3.h),
+                            child: Obx(
+                              () =>
+                                  forumC.selectedImages.isEmpty
+                                      ? SizedBox(
+                                        height: 220,
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Icon(Icons.add_a_photo, size: 4.h, color: Colors.grey),
+                                            SizedBox(height: 1.h),
+                                            Text(
+                                              "Tap to pick images (Max 3)",
+                                              style: TextStyle(color: Colors.grey),
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    )
-                                    : SizedBox(
-                                      height: 100,
-                                      child: ListView.builder(
-                                        scrollDirection: Axis.horizontal,
-                                        itemCount: forumC.selectedImages.length,
-                                        itemBuilder: (context, index) {
-                                          final file = forumC.selectedImages[index];
-                                          return Stack(
-                                            children: [
-                                              Container(
-                                                margin: EdgeInsets.only(right: 10),
-                                                width: 100,
-                                                decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(10),
-                                                  image: DecorationImage(
-                                                    image: FileImage(file),
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                ),
-                                              ),
-                                              Positioned(
-                                                right: 10,
-                                                top: 0,
-                                                child: GestureDetector(
-                                                  onTap: () => forumC.removeImage(index),
-                                                  child: Container(
-                                                    margin: EdgeInsets.all(4),
-                                                    decoration: BoxDecoration(
-                                                      color: Colors.black,
-                                                      shape: BoxShape.circle,
+                                      )
+                                      : SizedBox(
+                                        height: 220,
+                                        child: ListView.builder(
+                                          padding: EdgeInsets.symmetric(horizontal: 4.w),
+                                          scrollDirection: Axis.horizontal,
+                                          itemCount: forumC.selectedImages.length,
+                                          itemBuilder: (context, index) {
+                                            final file = forumC.selectedImages[index];
+                                            return Stack(
+                                              children: [
+                                                Container(
+                                                  margin: EdgeInsets.only(right: 10),
+                                                  width: 100,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(10),
+                                                    image: DecorationImage(
+                                                      image: FileImage(file),
+                                                      fit: BoxFit.cover,
                                                     ),
-                                                    padding: EdgeInsets.all(2),
-                                                    child: Icon(Icons.close, color: Colors.white, size: 16),
                                                   ),
                                                 ),
-                                              ),
-                                            ],
-                                          );
-                                        },
+                                                Positioned(
+                                                  right: 10,
+                                                  top: 0,
+                                                  child: GestureDetector(
+                                                    onTap: () => forumC.removeImage(index),
+                                                    child: Container(
+                                                      margin: EdgeInsets.all(4),
+                                                      decoration: BoxDecoration(
+                                                        color: Colors.black,
+                                                        shape: BoxShape.circle,
+                                                      ),
+                                                      padding: EdgeInsets.all(2),
+                                                      child: Icon(Icons.close, color: Colors.white, size: 16),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        ),
                                       ),
-                                    ),
+                            ),
                           ),
                         ),
                       ),
+                      SizedBox(height: 2.h),
                       AppTextField(hintText: 'Post Detail', maxLines: null),
                       SizedBox(height: 2.h),
 
@@ -139,7 +151,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                             ),
                           ),
                           SizedBox(width: 2.w),
-                          ElevatedButton(
+                          IconButton(
                             onPressed: () {
                               final tag = tagController.text.trim();
                               if (tag.isNotEmpty) {
@@ -147,7 +159,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                                 tagController.clear();
                               }
                             },
-                            child: Text('Add'),
+                            icon: Icon(Icons.add_box_outlined, size: 30),
                           ),
                         ],
                       ),

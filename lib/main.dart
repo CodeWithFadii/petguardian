@@ -8,6 +8,7 @@ import 'package:sizer/sizer.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Future.delayed(Duration(milliseconds: 100));
   runApp(const MyApp());
 }
 
