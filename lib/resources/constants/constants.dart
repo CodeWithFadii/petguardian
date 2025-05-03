@@ -11,6 +11,7 @@ import '../../controllers/activity_controller.dart';
 import '../../controllers/add_pet_info_controller.dart';
 import '../../controllers/dashboard_controller.dart';
 import '../../controllers/feeding_controller.dart';
+import '../../controllers/forum_controller.dart';
 import '../../controllers/grooming_controller.dart';
 import '../../controllers/health_controller.dart';
 import '../widgets/loader.dart';
@@ -25,22 +26,33 @@ FeedingController get feedingC => Get.find<FeedingController>();
 GroomingController get groomingC => Get.find<GroomingController>();
 HealthController get healthC => Get.find<HealthController>();
 ActivityController get activityC => Get.find<ActivityController>();
+ForumController get forumC => Get.find<ForumController>();
 OTPController get otpC => Get.find<OTPController>();
 
 const String bodyFont = 'Poppins';
 const String headingFont = 'MochiyPopOne';
 
-const List<String> homeTextList = ['Settings', 'Feeding', 'Grooming', 'Health', 'Activity', 'Gallery'];
-const List<String> settingsTextList = ['Logout', 'Delete Account'];
+const List<String> homeTextList = [
+  'Settings',
+  'Feeding',
+  'Grooming',
+  'Health',
+  // , 'Activity'
+  'Gallery',
+  'My Posts',
+];
+const List<String> settingsTextList = ['Profile', 'Logout', 'Delete Account'];
 const List<String> homeIconsList = [
   AppIcons.settings,
   AppIcons.food,
   AppIcons.grooming,
   AppIcons.health,
-  AppIcons.activityHome,
+
+  // AppIcons.activityHome,
   AppIcons.gallery,
+  AppIcons.forum,
 ];
-const List<String> settingsIconsList = [AppIcons.logout, AppIcons.delete];
+const List<String> settingsIconsList = [AppIcons.profile, AppIcons.logout, AppIcons.delete];
 List<VoidCallback> homeNavigateList = [
   () => Get.toNamed(RoutesName.settingsScreen),
   () => Get.toNamed(RoutesName.feedingScreen),
@@ -48,6 +60,7 @@ List<VoidCallback> homeNavigateList = [
   () => Get.toNamed(RoutesName.healthScreen),
   () => Get.toNamed(RoutesName.activityScreen),
   () => Get.toNamed(RoutesName.galleryScreen),
+  () => Get.toNamed(RoutesName.myPostsScreen),
 ];
 
 enum UserType { email, google, facebook, apple }

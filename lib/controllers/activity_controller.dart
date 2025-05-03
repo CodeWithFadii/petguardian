@@ -8,7 +8,6 @@ class ActivityController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    // Default activities for demonstration
     activities.add(Activity('Walk', [TimeOfDay(hour: 8, minute: 0), TimeOfDay(hour: 18, minute: 0)]));
     activities.add(Activity('Playtime', [TimeOfDay(hour: 10, minute: 0)]));
   }

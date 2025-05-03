@@ -16,4 +16,11 @@ class RoutesName {
   static const String feedingScreen = '/feedingScreen';
   static const String healthScreen = '/healthScreen';
   static const String activityScreen = '/activityScreen';
+  static const String forumScreen = '/forumScreen';
+  static const String myPostsScreen = '/myPostsScreen';
+  static const String addPostScreen = '/addPostScreen';
+  static const String editPostScreen = '/editPostScreen';
+  static const String petDetailScreen = '/petDetailScreen';
+  static const String profileScreen = '/profileScreen';
+  static const String otherUserProfile = '/otherUserProfile';
 }

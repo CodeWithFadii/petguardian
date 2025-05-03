@@ -37,20 +37,28 @@ class SettingsScreen extends StatelessWidget {
                   itemCount: settingsTextList.length,
                   itemBuilder: (context, index) {
                     return GestureDetector(
-                      onTap:
-                          () =>
-                              index == 0
-                                  ? Utils().showConfirmDialog(
-                                    title: "Logout",
-                                    description: "Are you sure you want to logout?",
-                                    onConfirm: () => Get.toNamed(RoutesName.welcomeScreen),
-                                  )
-                                  : Utils().showConfirmDialog(
-                                    title: "Delete Account",
-                                    description:
-                                        "This action is permanent. Are you sure you want to delete your account?",
-                                    onConfirm: () => Get.toNamed(RoutesName.welcomeScreen),
-                                  ),
+                      onTap: () {
+                        switch (index) {
+                          case 0:
+                            Get.toNamed(RoutesName.profileScreen);
+                            break;
+                          case 1:
+                            Utils().showConfirmDialog(
+                              title: "Logout",
+                              description: "Are you sure you want to logout?",
+                              onConfirm: () => Get.toNamed(RoutesName.welcomeScreen),
+                            );
+                            break;
+                          case 2:
+                            Utils().showConfirmDialog(
+                              title: "Delete Account",
+                              description:
+                                  "This action is permanent. Are you sure you want to delete your account?",
+                              onConfirm: () => Get.toNamed(RoutesName.welcomeScreen),
+                            );
+                            break;
+                        }
+                      },
 
                       child: Container(
                         padding: EdgeInsets.symmetric(vertical: 1.5.h, horizontal: 3.w),
