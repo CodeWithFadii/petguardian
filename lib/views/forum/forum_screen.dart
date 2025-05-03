@@ -20,14 +20,11 @@ class ForumScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: Padding(
-        padding: EdgeInsets.only(bottom: 12.h, right: 2.w),
-        child: FloatingActionButton(
-          onPressed: () => Get.toNamed(RoutesName.addPostScreen),
-          elevation: 0,
-          backgroundColor: AppColors.primary,
-          child: Icon(Icons.add),
-        ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Get.toNamed(RoutesName.addPostScreen),
+        elevation: 0,
+        backgroundColor: AppColors.primary,
+        child: Icon(Icons.add),
       ),
       body: SafeArea(
         child: Padding(

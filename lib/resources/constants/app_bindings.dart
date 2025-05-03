@@ -8,6 +8,7 @@ import '../../controllers/feeding_controller.dart';
 import '../../controllers/forum_controller.dart';
 import '../../controllers/grooming_controller.dart';
 import '../../controllers/health_controller.dart';
+import '../../controllers/lifecycle_controller.dart';
 import '../utils.dart';
 import '../widgets/loader.dart';
 
@@ -15,6 +16,7 @@ class GlobalBinding extends Bindings {
   @override
   void dependencies() {
     Utils().setPortrait();
+    Get.put(LifecycleController());
     Get.put(LoaderController());
   }
 }

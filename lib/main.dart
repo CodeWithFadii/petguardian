@@ -6,9 +6,10 @@ import 'package:petguardian/resources/routes/routes_name.dart';
 import 'package:petguardian/resources/theme/app_theme.dart';
 import 'package:sizer/sizer.dart';
 
+import 'controllers/lifecycle_controller.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Future.delayed(Duration(milliseconds: 100));
   runApp(const MyApp());
 }
 
