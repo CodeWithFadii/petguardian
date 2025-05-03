@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:petguardian/resources/constants/app_colors.dart';
 import 'package:petguardian/resources/constants/constants.dart';
 import 'package:petguardian/resources/routes/routes_name.dart';
@@ -46,7 +48,12 @@ class SettingsScreen extends StatelessWidget {
                             Utils().showConfirmDialog(
                               title: "Logout",
                               description: "Are you sure you want to logout?",
-                              onConfirm: () => Get.toNamed(RoutesName.welcomeScreen),
+                              onConfirm: () async {
+                                await FirebaseAuth.instance.signOut();
+                                await GoogleSignIn().signOut();
+                                Utils.showMessage('Logged out successfully', context: context);
+                                Get.toNamed(RoutesName.welcomeScreen);
+                              },
                             );
                             break;
                           case 2:

@@ -33,6 +33,7 @@ class VerifyOtpScreen extends StatelessWidget {
                 SizedBox(height: 8.h),
                 Center(
                   child: Pinput(
+                    controller: otpC.otpC,
                     onTapOutside: (event) {
                       FocusScope.of(context).requestFocus(FocusNode());
                     },
@@ -51,7 +52,11 @@ class VerifyOtpScreen extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 2.h),
-                AppTextWidget(text: 'Enter the OTP sent to your email to continue.', fontSize: 14, height: 1.3),
+                AppTextWidget(
+                  text: 'Enter the OTP sent to your email to continue.',
+                  fontSize: 14,
+                  height: 1.3,
+                ),
                 SizedBox(height: 5.h),
                 AppButtonWidget(
                   text: 'Verify Otp',

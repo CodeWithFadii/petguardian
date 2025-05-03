@@ -2,12 +2,14 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:petguardian/resources/utils.dart';
 import 'package:petguardian/resources/widgets/app_text_field_widget.dart';
 import 'package:petguardian/resources/widgets/loader.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../resources/constants/app_colors.dart';
 import '../../resources/constants/app_icons.dart';
+import '../../resources/constants/app_validators.dart';
 import '../../resources/constants/constants.dart';
 import '../../resources/routes/routes_name.dart';
 import '../../resources/widgets/app_button_widget.dart';
@@ -47,6 +49,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     hintText: 'Email Address',
                     suffixIcon: Icon(Icons.mail_outline),
                     controller: authC.emailC,
+                    validator: (value) {
+                      return AppValidators.validateEmail(value);
+                    },
                   ),
                   SizedBox(height: 2.h),
                   AppTextField(
@@ -54,12 +59,17 @@ class _LoginScreenState extends State<LoginScreen> {
                     suffixIcon: Icon(Icons.visibility_outlined),
                     obscureText: true,
                     controller: authC.passwordC,
+                    validator: (value) {
+                      return AppValidators.validatePassword(value);
+                    },
                     maxLines: 1,
                   ),
                   Align(
                     alignment: Alignment.centerRight,
                     child: InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        authC.sendPasswordResetEmail(context: context);
+                      },
                       child: AppTextWidget(
                         padding: EdgeInsets.symmetric(vertical: 1.5.h),
                         text: 'Forget Password?',

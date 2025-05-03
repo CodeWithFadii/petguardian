@@ -6,6 +6,7 @@ import 'package:petguardian/resources/routes/routes_name.dart';
 import 'package:sizer/sizer.dart';
 import '../../resources/constants/app_colors.dart';
 import '../../resources/constants/app_images.dart';
+import '../../resources/services/storage_service.dart';
 import '../../resources/widgets/app_button_widget.dart';
 import '../../resources/widgets/app_text_widget.dart';
 import 'components/onboarding_indicator_widget.dart';
@@ -60,6 +61,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   void _navigate() {
     if (mounted) {
+      StorageService.setUser(false);
       Get.offAllNamed(RoutesName.welcomeScreen);
     }
   }

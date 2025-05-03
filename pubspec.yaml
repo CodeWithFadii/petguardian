@@ -48,6 +48,9 @@ dependencies:
   mailer: ^6.4.1
   google_sign_in: ^6.3.0
   fpdart: ^1.1.1
+  readmore: ^3.0.0
+  fl_chart: ^0.71.0
+  shared_preferences: ^2.5.3
 
 dev_dependencies:
   flutter_test:

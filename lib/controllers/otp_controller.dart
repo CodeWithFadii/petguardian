@@ -38,21 +38,20 @@ class OTPController extends GetxController {
     loaderC.showLoader();
     generateOTP();
 
-    final smtpServer = gmail('amirsohail200rb@gmail.com', 'qvcl hvuq bgus qtlg');
+    final smtpServer = gmail('petguardian34@gmail.com', 'gyij hihz leij qwee');
     final message =
         Message()
-          ..from = Address('amirsohail200rb@gmail.com', 'Soapah')
+          ..from = Address('petguardian34@gmail.com', 'Pet Guardian')
           ..recipients.add(authC.emailC!.text)
-          ..subject = 'Soapah'
+          ..subject = 'Pet Guardian'
           ..text = 'Your OTP code is: ${_otp.value}';
 
     try {
-      await send(message, smtpServer);
+      final sendReport = await send(message, smtpServer);
       Utils.showMessage('OTP sent successfully', isError: false, context: context);
       startTimer();
     } catch (e) {
       Utils.showMessage('Failed to send OTP', context: context);
-      debugPrint(e.toString());
     } finally {
       loaderC.hideLoader();
     }
