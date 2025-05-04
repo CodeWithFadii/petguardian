@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../resources/constants/app_colors.dart';
 import '../../../resources/constants/app_icons.dart';
-import '../../../resources/constants/constants.dart';
 import 'dashboard_nav_item.dart';
 
 class DashboardNavbar extends StatelessWidget {

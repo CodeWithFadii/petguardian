@@ -42,9 +42,9 @@ class OTPController extends GetxController {
     final message =
         Message()
           ..from = Address('petguardian34@gmail.com', 'Pet Guardian')
-          ..recipients.add(authC.emailC!.text)
+          ..recipients.add(authC.signUpEmailC!.text)
           ..subject = 'Pet Guardian'
-          ..text = 'Your OTP code is: ${_otp.value}';
+          ..html = getOTPEmailTemplate(_otp.value);
 
     try {
       final sendReport = await send(message, smtpServer);

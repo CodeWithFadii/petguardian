@@ -81,14 +81,7 @@ class _AppTextFieldState extends State<AppTextField> {
         controller: widget.controller,
         obscureText: _isObscured,
         keyboardType: widget.keyboardType,
-        validator:
-            widget.validator ??
-            (value) {
-              if (value == null || value.isEmpty) {
-                return 'This field can\'t be empty';
-              }
-              return null;
-            },
+        validator: widget.validator,
         onChanged: widget.onChanged,
         onFieldSubmitted: widget.onFieldSubmitted,
         maxLines: widget.obscureText ? 1 : widget.maxLines,

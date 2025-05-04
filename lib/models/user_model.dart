@@ -6,6 +6,7 @@ class UserModel {
   final String? id;
   final String? email;
   final String? createdAt;
+  final String? name;
   final String password;
   final UserType? userType;
   final String? img;
@@ -14,6 +15,7 @@ class UserModel {
     this.id = '',
     this.email = 'guest@example.com',
     this.createdAt = '',
+    this.name = '',
     this.password = '',
     this.userType = UserType.email,
     this.img,
@@ -24,6 +26,7 @@ class UserModel {
       'email': email,
       'createdAt': FieldValue.serverTimestamp(),
       'password': password,
+      'name': name,
       'userType': userType?.name,
       'img': img,
     };
@@ -34,6 +37,7 @@ class UserModel {
     return UserModel(
       id: doc.id,
       email: data['email'] ?? 'guest@example.com',
+      name: data['name'] ?? 'xyzUser',
       password: data['password'] ?? 'defaultPassword123',
       userType: UserType.values.firstWhere((e) => e.name == data['userType'], orElse: () => UserType.email),
       createdAt: (data['createdAt'] as Timestamp?)?.toDate().toIso8601String() ?? '',
@@ -45,6 +49,7 @@ class UserModel {
     String? id,
     String? email,
     String? createdAt,
+    String? name,
     String? password,
     UserType? userType,
     String? img,
@@ -52,10 +57,16 @@ class UserModel {
     return UserModel(
       id: id ?? this.id,
       email: email ?? this.email,
+      name: name ?? this.name,
       createdAt: createdAt ?? this.createdAt,
       password: password ?? this.password,
       userType: userType ?? this.userType,
       img: img ?? this.img,
     );
+  }
+
+  @override
+  String toString() {
+    return 'UserModel(id: $id, email: $email, createdAt: $createdAt,name: $name, password: $password, userType: $userType, img: $img)';
   }
 }

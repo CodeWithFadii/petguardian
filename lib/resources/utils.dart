@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -5,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:petguardian/resources/constants/constants.dart';
 import 'package:sizer/sizer.dart';
 
+import '../models/notification_model.dart';
 import '../resources/widgets/icon_snackbar.dart';
 
 class Utils {
@@ -120,5 +122,18 @@ class Utils {
         child: TextButton(onPressed: () => Get.back(), child: Text("Cancel")),
       ),
     );
+  }
+
+  static Future<void> uploadNotificationToFirebase({required String title, required String body}) async {
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .collection('notifications')
+        .add(NotificationModel(title: title, body: body).toMap());
+  }
+
+  static String getInitial(String name) {
+    if (name.isEmpty) return '';
+    return name.trim()[0].toUpperCase();
   }
 }

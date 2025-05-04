@@ -48,7 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   AppTextField(
                     hintText: 'Email Address',
                     suffixIcon: Icon(Icons.mail_outline),
-                    controller: authC.emailC,
+                    controller: authC.loginEmailC,
                     validator: (value) {
                       return AppValidators.validateEmail(value);
                     },
@@ -56,9 +56,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(height: 2.h),
                   AppTextField(
                     hintText: 'Password',
-                    suffixIcon: Icon(Icons.visibility_outlined),
                     obscureText: true,
-                    controller: authC.passwordC,
+                    controller: authC.loginPasswordC,
                     validator: (value) {
                       return AppValidators.validatePassword(value);
                     },

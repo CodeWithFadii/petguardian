@@ -9,25 +9,26 @@ import '../resources/utils.dart';
 
 class AuthController extends GetxController {
   final _authRepository = AuthRepository.instance;
-  final Rx<UserModel?> _user = Rx<UserModel?>(null);
 
-  TextEditingController? _emailC;
-  TextEditingController? _nameC;
-  TextEditingController? _passwordC;
-  TextEditingController? _confirmPasswordC;
+  TextEditingController? _signUpEmailC;
+  TextEditingController? _signUpNameC;
+  TextEditingController? _signUpPasswordC;
+  TextEditingController? _loginEmailC;
+  TextEditingController? _loginPasswordC;
 
-  TextEditingController? get emailC => _emailC;
-  TextEditingController? get nameC => _nameC;
-  TextEditingController? get passwordC => _passwordC;
-  TextEditingController? get confirmPasswordC => _confirmPasswordC;
-
-  UserModel? get user => _user.value;
+  TextEditingController? get signUpNameC => _signUpNameC;
+  TextEditingController? get signUpEmailC => _signUpEmailC;
+  TextEditingController? get signUpPasswordC => _signUpPasswordC;
+  TextEditingController? get loginEmailC => _loginEmailC;
+  TextEditingController? get loginPasswordC => _loginPasswordC;
 
   @override
   void onInit() {
-    _emailC = TextEditingController();
-    _passwordC = TextEditingController();
-    _confirmPasswordC = TextEditingController();
+    _signUpEmailC = TextEditingController();
+    _signUpNameC = TextEditingController();
+    _signUpPasswordC = TextEditingController();
+    _loginEmailC = TextEditingController();
+    _loginPasswordC = TextEditingController();
     super.onInit();
   }
 
@@ -41,7 +42,6 @@ class AuthController extends GetxController {
         loaderC.hideLoader();
       },
       (user) {
-        _user.value = user;
         Utils.showMessage('Login Successful', context: context, isError: false);
         Get.offAllNamed(RoutesName.dashboard);
         loaderC.hideLoader();
@@ -50,18 +50,21 @@ class AuthController extends GetxController {
   }
 
   Future<void> sendPasswordResetEmail({required BuildContext context}) async {
-    if (_emailC!.text.trim().isEmpty) {
+    if (_loginEmailC!.text.trim().isEmpty) {
       Utils.showMessage('Please enter your email', context: context, isError: true);
       return;
     }
 
     loaderC.showLoader();
-    final response = await _authRepository.sendPasswordResetEmail(email: _emailC!.text.trim());
+    final response = await _authRepository.sendPasswordResetEmail(email: _loginEmailC!.text.trim());
 
-    response.fold(
-      (error) => Utils.showMessage(error.message, context: context, isError: true),
-      (_) => Utils.showMessage('Password reset email sent', context: context, isError: false),
-    );
+    response.fold((error) => Utils.showMessage(error.message, context: context, isError: true), (_) async {
+      await Utils.uploadNotificationToFirebase(
+        title: 'Password Reset',
+        body: 'Password reset email sent successfully.',
+      );
+      Utils.showMessage('Password reset email sent', context: context, isError: false);
+    });
 
     loaderC.hideLoader();
   }
@@ -69,24 +72,57 @@ class AuthController extends GetxController {
   Future<void> signup({required BuildContext context}) async {
     loaderC.showLoader();
     final response = await _authRepository.signup(
-      user: UserModel(email: _emailC!.text.trim(), password: _passwordC!.text.trim()),
+      user: UserModel(
+        name: signUpNameC!.text.trim(),
+        email: _signUpEmailC!.text.trim(),
+        password: _signUpPasswordC!.text.trim(),
+      ),
     );
 
     response.fold((error) => Utils.showMessage(error.message, context: context, isError: true), (_) async {
+      await Utils.uploadNotificationToFirebase(
+        title: 'Account Created',
+        body: 'Your account created successfully.',
+      );
       Utils.showMessage('Signup Successful', context: context, isError: false);
       Get.offAllNamed(RoutesName.dashboard);
     });
     loaderC.hideLoader();
   }
 
+  Future<void> checkEmailExist({required BuildContext context}) async {
+    loaderC.showLoader();
+    final response = await _authRepository.checkEmailExist(email: _signUpEmailC!.text);
+
+    response.fold(
+      (error) {
+        Utils.showMessage(error.message, context: context, isError: true);
+      },
+      (isEmailExist) async {
+        if (isEmailExist) {
+          Utils.showMessage('Email already exist', context: context, isError: true);
+          loaderC.hideLoader();
+          return;
+        } else {
+          await otpC.sendOTP(context);
+          loaderC.hideLoader();
+          Get.toNamed(RoutesName.verifyOtpScreen);
+        }
+      },
+    );
+  }
+
   Future<void> login({required BuildContext context}) async {
     loaderC.showLoader();
     final response = await _authRepository.login(
-      user: UserModel(email: _emailC!.text.trim(), password: _passwordC!.text.trim()),
+      user: UserModel(email: _loginEmailC!.text.trim(), password: _loginPasswordC!.text.trim()),
     );
 
-    response.fold((error) => Utils.showMessage(error.message, context: context, isError: true), (user) {
-      _user.value = user;
+    response.fold((error) => Utils.showMessage(error.message, context: context, isError: true), (user) async {
+      await Utils.uploadNotificationToFirebase(
+        title: 'Account Logged in',
+        body: 'Your account logged in successfully.',
+      );
       Utils.showMessage('Login Successful', context: context, isError: false);
       Get.offAllNamed(RoutesName.dashboard);
     });
@@ -97,16 +133,16 @@ class AuthController extends GetxController {
   Future<void> logout() async {
     loaderC.showLoader();
     await _authRepository.logout();
-    _user.value = null;
     loaderC.hideLoader();
   }
 
   @override
   void dispose() {
-    _nameC!.dispose();
-    _emailC!.dispose();
-    _passwordC!.dispose();
-    _confirmPasswordC!.dispose();
+    _signUpEmailC!.dispose();
+    _signUpNameC!.dispose();
+    _signUpPasswordC!.dispose();
+    _loginEmailC!.dispose();
+    _loginPasswordC!.dispose();
     super.dispose();
   }
 }

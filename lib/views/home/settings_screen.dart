@@ -52,7 +52,7 @@ class SettingsScreen extends StatelessWidget {
                                 await FirebaseAuth.instance.signOut();
                                 await GoogleSignIn().signOut();
                                 Utils.showMessage('Logged out successfully', context: context);
-                                Get.toNamed(RoutesName.welcomeScreen);
+                                Get.offAllNamed(RoutesName.welcomeScreen);
                               },
                             );
                             break;

@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import '../models/user_model.dart';
 import '../resources/constants/constants.dart';
+import '../resources/utils.dart';
 
 class AuthRepository {
   AuthRepository._privateConstructor();
@@ -88,13 +91,22 @@ class AuthRepository {
         id: firebaseUser.uid,
         email: firebaseUser.email ?? 'guest@example.com',
         userType: UserType.google,
+        name: firebaseUser.displayName,
         img: firebaseUser.photoURL,
       );
 
       // Only create user document if it doesn't exist
       if (!userDoc.exists) {
         await _firestore.collection('users').doc(firebaseUser.uid).set(user.toFirestore());
+        await Utils.uploadNotificationToFirebase(
+          title: 'Account Created',
+          body: 'Your account created successfully.',
+        );
       } else {
+        await Utils.uploadNotificationToFirebase(
+          title: 'Account Logged in',
+          body: 'Your account logged in successfully.',
+        );
         user = UserModel.fromFirestore(userDoc);
       }
 
@@ -110,6 +122,19 @@ class AuthRepository {
     try {
       await _auth.sendPasswordResetEmail(email: email);
       return right(null);
+    } on FirebaseAuthException catch (e) {
+      return left(Failure(e.message ?? 'Failed to send reset email'));
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+
+  FutureEither<bool> checkEmailExist({required String email}) async {
+    try {
+      final doc = await FirebaseFirestore.instance.collection('users').where('email', isEqualTo: email).get();
+
+      final exists = doc.docs.isNotEmpty;
+      return right(exists);
     } on FirebaseAuthException catch (e) {
       return left(Failure(e.message ?? 'Failed to send reset email'));
     } catch (e) {

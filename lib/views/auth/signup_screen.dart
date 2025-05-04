@@ -1,6 +1,5 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:petguardian/resources/constants/constants.dart';
 import 'package:petguardian/resources/widgets/app_text_field_widget.dart';
@@ -8,12 +7,10 @@ import 'package:petguardian/resources/widgets/loader.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../resources/constants/app_colors.dart';
-import '../../resources/constants/app_icons.dart';
 import '../../resources/constants/app_validators.dart';
 import '../../resources/routes/routes_name.dart';
 import '../../resources/widgets/app_button_widget.dart';
 import '../../resources/widgets/app_text_widget.dart';
-import 'components/terms_and _conditions.dart';
 
 class SignupScreen extends StatelessWidget {
   SignupScreen({super.key});
@@ -44,7 +41,7 @@ class SignupScreen extends StatelessWidget {
                   AppTextField(
                     hintText: 'User Name',
                     suffixIcon: Icon(Icons.person_outline),
-                    controller: authC.nameC,
+                    controller: authC.signUpNameC,
                     validator: (value) {
                       return AppValidators.validateName(value);
                     },
@@ -53,7 +50,7 @@ class SignupScreen extends StatelessWidget {
                   AppTextField(
                     hintText: 'Email Address',
                     suffixIcon: Icon(Icons.mail_outline),
-                    controller: authC.emailC,
+                    controller: authC.signUpEmailC,
                     validator: (value) {
                       return AppValidators.validateEmail(value);
                     },
@@ -61,9 +58,8 @@ class SignupScreen extends StatelessWidget {
                   SizedBox(height: 2.h),
                   AppTextField(
                     hintText: 'Password',
-                    suffixIcon: Icon(Icons.visibility_off_outlined),
                     obscureText: true,
-                    controller: authC.passwordC,
+                    controller: authC.signUpPasswordC,
                     maxLines: 1,
                     validator: (value) {
                       return AppValidators.validatePassword(value);
@@ -83,8 +79,7 @@ class SignupScreen extends StatelessWidget {
                     text: 'Signup',
                     onTap: () async {
                       if (formKey.currentState!.validate()) {
-                        await otpC.sendOTP(context);
-                        Get.toNamed(RoutesName.verifyOtpScreen);
+                        authC.checkEmailExist(context: context);
                       }
                     },
                   ),

@@ -126,6 +126,12 @@ class AppValidators {
   }
 
   static String? validateName(String? value) => validateAlphabetic(value, 'Name');
+  static String? validateValue(String? value, String name) {
+    if (value == null || value.isEmpty) {
+      return '$name is required.';
+    }
+    return null;
+  }
 
   static String? validateLastName(String? value) => validateAlphabetic(value, 'Last name');
 
