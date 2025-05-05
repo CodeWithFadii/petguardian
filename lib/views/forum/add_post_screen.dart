@@ -7,6 +7,7 @@ import 'package:petguardian/resources/constants/constants.dart';
 import 'package:petguardian/resources/widgets/app_button_widget.dart';
 import 'package:petguardian/resources/widgets/app_text_field_widget.dart';
 import 'package:petguardian/resources/widgets/loader.dart';
+import 'package:petguardian/resources/widgets/shimmer_cached_image.dart';
 import 'package:sizer/sizer.dart';
 import '../../resources/constants/app_icons.dart';
 import '../../resources/widgets/app_text_widget.dart';
@@ -16,6 +17,7 @@ class AddPostScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isEdit = Get.arguments?['isEdit'] ?? false;
     final formKey = GlobalKey<FormState>();
     return GlobalLoader(
       child: Scaffold(
@@ -39,7 +41,11 @@ class AddPostScreen extends StatelessWidget {
                         ),
                       ),
                       SizedBox(width: 5.w),
-                      AppTextWidget(text: 'Add Post Info', fontWeight: FontWeight.w500, fontSize: 17.5),
+                      AppTextWidget(
+                        text: isEdit ? 'Update Post Info' : 'Add Post Info',
+                        fontWeight: FontWeight.w500,
+                        fontSize: 17.5,
+                      ),
                     ],
                   ),
                   Expanded(
@@ -62,24 +68,35 @@ class AddPostScreen extends StatelessWidget {
                                 child: Obx(
                                   () =>
                                       forumC.selectedImage == null
-                                          ? SizedBox(
-                                            height: 220,
-                                            child: Column(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                Icon(
-                                                  Icons.add_a_photo_outlined,
-                                                  size: 4.h,
-                                                  color: Colors.grey,
+                                          ? forumC.editPost == null
+                                              ? SizedBox(
+                                                height: 220,
+                                                child: Column(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: [
+                                                    Icon(
+                                                      Icons.add_a_photo_outlined,
+                                                      size: 4.h,
+                                                      color: Colors.grey,
+                                                    ),
+                                                    SizedBox(height: 1.h),
+                                                    Text(
+                                                      "Tap to pick image",
+                                                      style: TextStyle(color: Colors.grey),
+                                                    ),
+                                                  ],
                                                 ),
-                                                SizedBox(height: 1.h),
-                                                Text(
-                                                  "Tap to pick image",
-                                                  style: TextStyle(color: Colors.grey),
+                                              )
+                                              : ClipRRect(
+                                                borderRadius: BorderRadius.circular(8),
+                                                child: SizedBox(
+                                                  height: 220,
+                                                  width: double.infinity,
+                                                  child: ShimmerCachedImage(
+                                                    imageUrl: forumC.editPost!.imageUrl,
+                                                  ),
                                                 ),
-                                              ],
-                                            ),
-                                          )
+                                              )
                                           : Container(
                                             height: 220,
                                             width: double.infinity,
@@ -155,7 +172,7 @@ class AddPostScreen extends StatelessWidget {
                                   return Padding(
                                     padding: EdgeInsets.only(right: 8),
                                     child: Chip(
-                                      label: Text(tag),
+                                      label: Text(tag.toUpperCase()),
                                       deleteIcon: Icon(Icons.close, size: 18),
                                       onDeleted: () => forumC.removeTag(index),
                                     ),
@@ -176,11 +193,11 @@ class AddPostScreen extends StatelessWidget {
         bottomNavigationBar: AppButtonWidget(
           onTap: () {
             if (formKey.currentState!.validate()) {
-              forumC.uploadPost(context: context);
+              isEdit ? forumC.updatePost(context: context) : forumC.uploadPost(context: context);
             }
           },
           margin: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
-          text: 'Upload Post',
+          text: isEdit ? 'Update Post' : 'Upload Post',
         ),
       ),
     );

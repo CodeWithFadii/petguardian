@@ -45,24 +45,51 @@ class SettingsScreen extends StatelessWidget {
                             Get.toNamed(RoutesName.profileScreen);
                             break;
                           case 1:
-                            Utils().showConfirmDialog(
-                              title: "Logout",
-                              description: "Are you sure you want to logout?",
-                              onConfirm: () async {
-                                await FirebaseAuth.instance.signOut();
-                                await GoogleSignIn().signOut();
-                                Utils.showMessage('Logged out successfully', context: context);
-                                Get.offAllNamed(RoutesName.welcomeScreen);
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text('Logout'),
+                                  content: Text('Are you sure you want to logout?'),
+                                  actions: [
+                                    TextButton(onPressed: () => Get.back(), child: Text('Cancel')),
+                                    TextButton(
+                                      onPressed: () async {
+                                        await FirebaseAuth.instance.signOut();
+                                        await GoogleSignIn().signOut();
+                                        Utils.showMessage('Logged out successfully', context: context);
+                                        Get.offAllNamed(RoutesName.welcomeScreen);
+                                      },
+                                      child: Text('Logout'),
+                                    ),
+                                  ],
+                                );
                               },
                             );
+
                             break;
                           case 2:
-                            Utils().showConfirmDialog(
-                              title: "Delete Account",
-                              description:
-                                  "This action is permanent. Are you sure you want to delete your account?",
-                              onConfirm: () => Get.toNamed(RoutesName.welcomeScreen),
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text('Delete Account'),
+                                  content: Text(
+                                    'This action is permanent. Are you sure you want to delete your account?',
+                                  ),
+                                  actions: [
+                                    TextButton(onPressed: () => Get.back(), child: Text('Cancel')),
+                                    TextButton(
+                                      onPressed: () async {
+                                        Get.back();
+                                      },
+                                      child: Text('Delete'),
+                                    ),
+                                  ],
+                                );
+                              },
                             );
+
                             break;
                         }
                       },

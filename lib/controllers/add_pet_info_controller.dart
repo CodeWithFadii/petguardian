@@ -166,6 +166,16 @@ class AddPetInfoController extends GetxController {
         .map((snapshot) => snapshot.docs.map((doc) => PetModel.fromFirestore(doc)).toList());
   }
 
+  Stream<List<PetModel>> userPetsStream({required String userId}) {
+    return FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId)
+        .collection('pets')
+        .orderBy('createdAt', descending: true)
+        .snapshots()
+        .map((snapshot) => snapshot.docs.map((doc) => PetModel.fromFirestore(doc)).toList());
+  }
+
   @override
   void dispose() {
     _name.dispose();

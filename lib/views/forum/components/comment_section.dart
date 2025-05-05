@@ -37,6 +37,7 @@ class _CommentsSectionState extends State<CommentsSection> {
   @override
   void dispose() {
     _scrollController.dispose();
+    _commentController.dispose();
     super.dispose();
   }
 
@@ -63,85 +64,85 @@ class _CommentsSectionState extends State<CommentsSection> {
             SizedBox(height: 1.5.h),
             Divider(),
             SizedBox(height: 1.h),
-            Flexible(
-              child: StreamBuilder<List<CommentModel>>(
-                stream: forumC.commentsStream(widget.postId),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: Loader());
-                  }
-                  if (snapshot.hasError) {
-                    return const Center(child: Text('Error loading comments'));
-                  }
-                  if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                    return const Center(child: Text('No comments yet'));
-                  }
-                  final comments = snapshot.data ?? [];
-                  return ListView.separated(
-                    itemCount: comments.length,
-                    separatorBuilder: (context, index) => SizedBox(height: 2.h),
-                    itemBuilder: (context, index) {
-                      final comment = comments[index];
-                      return GestureDetector(
-                        onLongPress: () {
-                          _showDeleteConfirmationDialog(comment.id!);
-                        },
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 3.w),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              comment.user!.img!.isNotEmpty
-                                  ? ClipRRect(
-                                    borderRadius: BorderRadius.circular(100),
-                                    child: CircleAvatar(
-                                      radius: 20,
-                                      child: ShimmerCachedImage(imageUrl: comment.user!.img!),
-                                    ),
-                                  )
-                                  : CircleAvatar(
+            StreamBuilder<List<CommentModel>>(
+              stream: forumC.commentsStream(widget.postId),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: Loader());
+                }
+                if (snapshot.hasError) {
+                  return const Center(child: Text('Error loading comments'));
+                }
+                if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return const Center(child: Text('No comments yet'));
+                }
+                final comments = snapshot.data ?? [];
+                return ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: comments.length,
+                  separatorBuilder: (context, index) => SizedBox(height: 2.h),
+                  itemBuilder: (context, index) {
+                    final comment = comments[index];
+                    return GestureDetector(
+                      onLongPress: () {
+                        _showDeleteConfirmationDialog(comment.id!);
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 3.w),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            comment.user!.img!.isNotEmpty
+                                ? ClipRRect(
+                                  borderRadius: BorderRadius.circular(100),
+                                  child: CircleAvatar(
                                     radius: 20,
-                                    backgroundColor: AppColors.secondary,
-                                    child: AppTextWidget(
-                                      text: Utils.getInitial(comment.user!.name!),
-                                      fontFamily: headingFont,
-                                    ),
+                                    child: ShimmerCachedImage(imageUrl: comment.user!.img!),
                                   ),
-                              SizedBox(width: 12),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        AppTextWidget(
-                                          text: comment.user?.name ?? '',
-                                          fontWeight: FontWeight.w600,
-                                          fontFamily: headingFont,
-                                          fontSize: 14.5,
-                                        ),
-                                        AppTextWidget(text: comment.createdAt ?? '', fontSize: 14),
-                                      ],
-                                    ),
-                                    SizedBox(height: 1.h),
-                                    AppTextWidget(
-                                      textAlign: TextAlign.left,
-                                      height: 1.3,
-                                      fontSize: 15,
-                                      text: comment.commentText,
-                                    ),
-                                  ],
+                                )
+                                : CircleAvatar(
+                                  radius: 20,
+                                  backgroundColor: AppColors.secondary,
+                                  child: AppTextWidget(
+                                    text: Utils.getInitial(comment.user!.name!),
+                                    fontFamily: headingFont,
+                                  ),
                                 ),
+                            SizedBox(width: 12),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      AppTextWidget(
+                                        text: comment.user?.name ?? '',
+                                        fontWeight: FontWeight.w600,
+                                        fontFamily: headingFont,
+                                        fontSize: 14.5,
+                                      ),
+                                      AppTextWidget(text: comment.createdAt ?? '', fontSize: 14),
+                                    ],
+                                  ),
+                                  SizedBox(height: 1.h),
+                                  AppTextWidget(
+                                    textAlign: TextAlign.left,
+                                    height: 1.3,
+                                    fontSize: 15,
+                                    text: comment.commentText,
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                      );
-                    },
-                  );
-                },
-              ),
+                      ),
+                    );
+                  },
+                );
+              },
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),

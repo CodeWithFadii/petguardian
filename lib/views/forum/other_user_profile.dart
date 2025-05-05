@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:petguardian/models/user_model.dart';
 import 'package:petguardian/resources/constants/app_colors.dart';
 import 'package:petguardian/resources/constants/app_images.dart';
 import 'package:petguardian/resources/constants/constants.dart';
@@ -9,14 +10,18 @@ import 'package:petguardian/resources/utils.dart';
 import 'package:petguardian/resources/widgets/app_button_widget.dart';
 import 'package:petguardian/resources/widgets/app_text_field_widget.dart';
 import 'package:sizer/sizer.dart';
+import '../../models/pet_model.dart';
 import '../../resources/constants/app_icons.dart';
 import '../../resources/widgets/app_text_widget.dart';
+import '../../resources/widgets/loader.dart';
+import '../../resources/widgets/shimmer_cached_image.dart';
 
 class OtherUserProfile extends StatelessWidget {
   const OtherUserProfile({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final UserModel userData = Get.arguments?['userData'];
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -34,17 +39,33 @@ class OtherUserProfile extends StatelessWidget {
                   SizedBox(width: 5.w),
                   AppTextWidget(text: 'User Detail', fontWeight: FontWeight.w500, fontSize: 17.5),
                   Spacer(),
-                  GestureDetector(
-                    onTap: () {
-                      Utils().showConfirmDialog(
-                        title: "Block User",
-                        description:
-                            "Are you sure you want to block this user? You won’t see their posts anymore.",
-                        onConfirm: () {},
-                      );
-                    },
-                    child: Icon(Icons.report_outlined),
-                  ),
+                  if (userData.id != uid)
+                    GestureDetector(
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text('Block User'),
+                              content: Text(
+                                'Are you sure you want to block this user? You won’t see their posts anymore.',
+                              ),
+                              actions: [
+                                TextButton(onPressed: () => Get.back(), child: Text('Cancel')),
+                                TextButton(
+                                  onPressed: () {
+                                    userC.updateBlocks(userId: userData.id!, context: context);
+                                    Get.back();
+                                  },
+                                  child: Text('Block'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                      child: Icon(Icons.report_outlined),
+                    ),
                 ],
               ),
               Expanded(
@@ -52,16 +73,22 @@ class OtherUserProfile extends StatelessWidget {
                   child: Column(
                     children: [
                       SizedBox(height: 5.h),
-                      CircleAvatar(
-                        backgroundColor: AppColors.secondary,
-                        radius: 50,
-                        child: AppTextWidget(
-                          text: 'F',
-                          fontFamily: headingFont,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
+                      userData.img!.isNotEmpty
+                          ? ClipRRect(
+                            borderRadius: BorderRadius.circular(100),
+                            child: CircleAvatar(
+                              radius: 50,
+                              child: ShimmerCachedImage(imageUrl: userData.img!),
+                            ),
+                          )
+                          : CircleAvatar(
+                            radius: 50,
+                            backgroundColor: AppColors.secondary,
+                            child: AppTextWidget(
+                              text: Utils.getInitial(userData.name!),
+                              fontFamily: headingFont,
+                            ),
+                          ),
                       SizedBox(height: 2.h),
                       AppTextWidget(
                         text: 'Fahad Ali',
@@ -79,33 +106,55 @@ class OtherUserProfile extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: 2.h),
-                      ListView.builder(
-                        physics: NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: 2, // Replace with dynamic list count later
-                        itemBuilder: (context, index) {
-                          return Container(
-                            margin: EdgeInsets.only(top: 2.h),
-                            padding: EdgeInsets.only(left: 3.w, top: 1.4.h, bottom: 1.4.h),
-                            decoration: BoxDecoration(
-                              color: AppColors.white,
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Row(
-                              children: [
-                                CircleAvatar(
-                                  radius: 26,
-                                  backgroundImage: AssetImage(index == 0 ? AppImages.dog : AppImages.cat),
+                      StreamBuilder<List<PetModel>>(
+                        stream: addPetInfoC.userPetsStream(userId: userData.id!),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            return Loader();
+                          }
+                          if (snapshot.hasError) {
+                            return Center(
+                              child: AppTextWidget(text: 'Error: ${snapshot.error}', height: 1.3),
+                            );
+                          }
+                          if (!snapshot.hasData) {
+                            return Center(child: AppTextWidget(text: 'No pets found.', height: 1.3));
+                          }
+                          final pets = snapshot.data ?? [];
+                          return ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: pets.length, // Replace with dynamic list count later
+                            itemBuilder: (context, index) {
+                              final pet = pets[index];
+                              return Container(
+                                margin: EdgeInsets.only(top: 2.h),
+                                padding: EdgeInsets.only(left: 3.w, top: 1.4.h, bottom: 1.4.h),
+                                decoration: BoxDecoration(
+                                  color: AppColors.white,
+                                  borderRadius: BorderRadius.circular(12),
                                 ),
-                                SizedBox(width: 3.w),
-                                AppTextWidget(
-                                  fontFamily: headingFont,
-                                  text: index == 0 ? 'Jackie' : 'Alee',
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
+                                child: Row(
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(100),
+                                      child: CircleAvatar(
+                                        backgroundColor: AppColors.secondary,
+                                        radius: 26,
+                                        child: ShimmerCachedImage(imageUrl: pet.imageUrl),
+                                      ),
+                                    ),
+                                    SizedBox(width: 3.w),
+                                    AppTextWidget(
+                                      fontFamily: headingFont,
+                                      text: pet.name,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
+                              );
+                            },
                           );
                         },
                       ),

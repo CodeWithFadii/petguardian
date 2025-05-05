@@ -39,7 +39,7 @@ class PostWidget extends StatelessWidget {
               spacing: 10,
               children: [
                 GestureDetector(
-                  onTap: () => Get.toNamed(RoutesName.otherUserProfile),
+                  onTap: () => Get.toNamed(RoutesName.otherUserProfile, arguments: {'userData': post.owner}),
                   child: Row(
                     spacing: 10,
                     children: [
@@ -72,7 +72,8 @@ class PostWidget extends StatelessWidget {
                 if (post.ownerId == uid)
                   GestureDetector(
                     onTap: () {
-                      Get.toNamed(RoutesName.editPostScreen);
+                      forumC.setEditPost(post: post);
+                      Get.toNamed(RoutesName.addPostScreen, arguments: {'isEdit': true});
                     },
                     child: Icon(Icons.edit_outlined),
                   ),
@@ -91,7 +92,7 @@ class PostWidget extends StatelessWidget {
                               TextButton(onPressed: () => Get.back(), child: Text('Cancel')),
                               TextButton(
                                 onPressed: () {
-                                  Get.back();
+                                  userC.updateBlocks(userId: post.ownerId, context: context);
                                 },
                                 child: Text('Block'),
                               ),

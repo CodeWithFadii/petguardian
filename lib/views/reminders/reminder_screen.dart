@@ -20,7 +20,6 @@ class ReminderScreen extends StatelessWidget {
           padding: EdgeInsets.symmetric(vertical: 3.h, horizontal: 6.w),
           child: Column(
             children: [
-              SizedBox(height: 2.h),
               Expanded(
                 child: StreamBuilder<QuerySnapshot>(
                   stream:

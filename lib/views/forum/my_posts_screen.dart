@@ -41,7 +41,7 @@ class MyPostsScreen extends StatelessWidget {
               SizedBox(height: 2.h),
               Expanded(
                 child: StreamBuilder<List<PostModel>>(
-                  stream: forumC.postsStream(),
+                  stream: forumC.myPostsStream(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(child: Loader());
@@ -50,12 +50,7 @@ class MyPostsScreen extends StatelessWidget {
                       return Center(child: AppTextWidget(text: 'Error: ${snapshot.error}', height: 1.3));
                     }
                     if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                      return Center(
-                        child: AppTextWidget(
-                          text: 'No posts yet. Be the first to share your story! 📸',
-                          height: 1.3,
-                        ),
-                      );
+                      return Center(child: AppTextWidget(text: 'No posts yet.', height: 1.3));
                     }
                     final posts = snapshot.data ?? [];
                     return ListView.builder(

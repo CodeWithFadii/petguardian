@@ -7,6 +7,7 @@ class UserModel {
   final String? email;
   final String? createdAt;
   final String? name;
+  final List<String> blocks;
   final String password;
   final UserType? userType;
   final String? img;
@@ -16,6 +17,7 @@ class UserModel {
     this.email = 'guest@example.com',
     this.createdAt = '',
     this.name = '',
+    this.blocks = const [],
     this.password = '',
     this.userType = UserType.email,
     this.img,
@@ -27,6 +29,7 @@ class UserModel {
       'createdAt': FieldValue.serverTimestamp(),
       'password': password,
       'name': name,
+      'blocks': blocks,
       'userType': userType?.name,
       'img': img,
     };
@@ -38,10 +41,11 @@ class UserModel {
       id: doc.id,
       email: data['email'] ?? 'guest@example.com',
       name: data['name'] ?? 'xyzUser',
+      blocks: List<String>.from(data['blocks'] ?? []),
       password: data['password'] ?? 'defaultPassword123',
       userType: UserType.values.firstWhere((e) => e.name == data['userType'], orElse: () => UserType.email),
       createdAt: (data['createdAt'] as Timestamp?)?.toDate().toIso8601String() ?? '',
-      img: data['img'],
+      img: data['img'] ?? '',
     );
   }
 
@@ -50,6 +54,7 @@ class UserModel {
     String? email,
     String? createdAt,
     String? name,
+    List<String>? blocks,
     String? password,
     UserType? userType,
     String? img,
@@ -58,6 +63,7 @@ class UserModel {
       id: id ?? this.id,
       email: email ?? this.email,
       name: name ?? this.name,
+      blocks: blocks ?? this.blocks,
       createdAt: createdAt ?? this.createdAt,
       password: password ?? this.password,
       userType: userType ?? this.userType,
@@ -67,6 +73,6 @@ class UserModel {
 
   @override
   String toString() {
-    return 'UserModel(id: $id, email: $email, createdAt: $createdAt,name: $name, password: $password, userType: $userType, img: $img)';
+    return 'UserModel(id: $id, email: $email, createdAt: $createdAt,name: $name, blocks: $blocks, password: $password, userType: $userType, img: $img)';
   }
 }
