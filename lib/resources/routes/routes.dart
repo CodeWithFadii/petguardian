@@ -7,8 +7,6 @@ import 'package:petguardian/views/auth/verify_otp_screen.dart';
 import 'package:petguardian/views/dashboard/dashboard.dart';
 import 'package:petguardian/views/forum/my_posts_screen.dart';
 import 'package:petguardian/views/home/home_screen.dart';
-
-import '../../controllers/forum_controller.dart';
 import '../../views/auth/welcome_screen.dart';
 import '../../views/forum/add_post_screen.dart';
 import '../../views/forum/edit_post_screen.dart';
@@ -24,6 +22,7 @@ import '../../views/home/settings_screen.dart';
 import '../../views/my_pets/add_pet_screen.dart';
 import '../../views/my_pets/pet_detail_screen.dart';
 import '../../views/onboarding/onboarding_screen.dart';
+import '../../views/settings/blocked_users_screen.dart';
 import '../../views/splash/splash_screen.dart';
 
 class Routes {
@@ -50,5 +49,6 @@ class Routes {
     GetPage(name: RoutesName.petDetailScreen, page: () => PetDetailScreen()),
     GetPage(name: RoutesName.addPostScreen, page: () => AddPostScreen()),
     GetPage(name: RoutesName.editPostScreen, page: () => EditPostScreen()),
+    GetPage(name: RoutesName.blockedUsersScreen, page: () => BlockedUsersScreen()),
   ];
 }

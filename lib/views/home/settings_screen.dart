@@ -45,6 +45,9 @@ class SettingsScreen extends StatelessWidget {
                             Get.toNamed(RoutesName.profileScreen);
                             break;
                           case 1:
+                            Get.toNamed(RoutesName.blockedUsersScreen);
+                            break;
+                          case 2:
                             showDialog(
                               context: context,
                               builder: (BuildContext context) {
@@ -66,9 +69,8 @@ class SettingsScreen extends StatelessWidget {
                                 );
                               },
                             );
-
                             break;
-                          case 2:
+                          case 3:
                             showDialog(
                               context: context,
                               builder: (BuildContext context) {
@@ -89,7 +91,6 @@ class SettingsScreen extends StatelessWidget {
                                 );
                               },
                             );
-
                             break;
                         }
                       },

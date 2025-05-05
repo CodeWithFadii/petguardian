@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:petguardian/resources/widgets/app_button_widget.dart';
+import 'package:petguardian/resources/widgets/loader.dart';
 import 'package:petguardian/views/home/components/my_dogs_list_widget.dart';
 import 'package:sizer/sizer.dart';
 import 'package:petguardian/resources/constants/app_colors.dart';
@@ -53,7 +53,7 @@ class FeedingScreen extends StatelessWidget {
                       tileColor: Colors.white,
                       contentPadding: EdgeInsets.symmetric(horizontal: 4.w),
                       value: feedingC.reminderEnabled.value,
-                      onChanged: (val) => feedingC.reminderEnabled.value = val,
+                      onChanged: (val) => feedingC.toggleReminder(val),
                       title: Text(feedingC.reminderEnabled.value ? 'Disable Reminder' : 'Enable Reminder'),
                     ),
                   ],
@@ -73,59 +73,94 @@ class FeedingScreen extends StatelessWidget {
                       fontFamily: headingFont,
                     ),
                     SizedBox(height: 3.h),
-                    ...feedingC.feedingTimes.asMap().entries.map((entry) {
-                      int index = entry.key;
-                      TimeOfDay time = entry.value;
-                      bool isDone = feedingC.todayStatus[index];
-                      return Padding(
-                        padding: EdgeInsets.only(bottom: 1.h),
-                        child: ListTile(
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                          tileColor: Colors.white,
-                          contentPadding: EdgeInsets.only(left: 4.w),
-                          leading: AppTextWidget(
-                            text: time.format(context),
-                            textDecoration: isDone ? TextDecoration.lineThrough : TextDecoration.none,
-                          ),
-                          trailing: PopupMenuButton<String>(
-                            icon: Icon(Icons.more_vert, color: AppColors.black),
-                            onSelected: (String result) async {
-                              switch (result) {
-                                case 'Mark Complete':
-                                  showModalBottomSheet(
-                                    context: context,
-                                    useSafeArea: true,
-                                    isScrollControlled: true,
-                                    builder: (context) {
-                                      return MyDogsListWidget();
-                                    },
-                                  );
-                                case 'Mark UnComplete':
-                                  feedingC.todayStatus[index] = false;
-                                case 'Edit':
-                                  final newTime = await showTimePicker(context: context, initialTime: time);
-                                  if (newTime != null) {
-                                    feedingC.feedingTimes[index] = newTime;
-                                  }
-                                case 'Delete':
-                                  feedingC.removeFeedingTime(index);
-                              }
-                            },
-                            itemBuilder:
-                                (BuildContext context) => <PopupMenuEntry<String>>[
-                                  PopupMenuItem<String>(
-                                    value: feedingC.todayStatus[index] ? 'Mark UnComplete' : 'Mark Complete',
-                                    child: Text(
-                                      feedingC.todayStatus[index] ? 'Mark UnComplete' : 'Mark Complete',
-                                    ),
-                                  ),
-                                  const PopupMenuItem<String>(value: 'Edit', child: Text('Edit')),
-                                  const PopupMenuItem<String>(value: 'Delete', child: Text('Delete')),
-                                ],
+                    if (feedingC.isLoading.value)
+                      Center(child: Padding(padding: EdgeInsets.only(top: 5.h, bottom: 2.h), child: Loader()))
+                    else if (feedingC.feedingSchedules.isEmpty)
+                      Center(
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 5.h, bottom: 2.h),
+                          child: AppTextWidget(
+                            height: 1.3,
+                            text: 'No feeding schedules yet.\nAdd one to get started!',
+                            fontSize: 16,
+                            textAlign: TextAlign.center,
                           ),
                         ),
-                      );
-                    }),
+                      )
+                    else
+                      ...feedingC.feedingSchedules.asMap().entries.map((entry) {
+                        int index = entry.key;
+                        var schedule = entry.value;
+                        return Padding(
+                          padding: EdgeInsets.only(bottom: 1.h),
+                          child: ListTile(
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                            tileColor: Colors.white,
+                            contentPadding: EdgeInsets.only(left: 4.w),
+                            leading: AppTextWidget(text: schedule.time.format(context)),
+                            trailing: PopupMenuButton<String>(
+                              icon: Icon(Icons.more_vert, color: AppColors.black),
+                              onSelected: (String result) async {
+                                switch (result) {
+                                  case 'Mark Complete':
+                                    final selectedPetIds = await showModalBottomSheet<List<String>>(
+                                      context: context,
+                                      useSafeArea: true,
+                                      isScrollControlled: true,
+                                      builder: (context) {
+                                        return MyDogsListWidget();
+                                      },
+                                    );
+                                    if (selectedPetIds != null && selectedPetIds.isNotEmpty) {
+                                      await feedingC.markFeedingComplete(index, selectedPetIds);
+                                    }
+                                  case 'Edit':
+                                    final newTime = await showTimePicker(
+                                      context: context,
+                                      initialTime: schedule.time,
+                                    );
+                                    if (newTime != null) {
+                                      feedingC.updateFeedingTime(index, newTime);
+                                    }
+                                  case 'Delete':
+                                    final shouldDelete = await showDialog<bool>(
+                                      context: context,
+                                      builder:
+                                          (context) => AlertDialog(
+                                            title: Text('Delete Schedule'),
+                                            content: Text(
+                                              'Are you sure you want to delete this feeding schedule?',
+                                            ),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () => Navigator.pop(context, false),
+                                                child: Text('Cancel'),
+                                              ),
+                                              TextButton(
+                                                onPressed: () => Navigator.pop(context, true),
+                                                child: Text('Delete'),
+                                              ),
+                                            ],
+                                          ),
+                                    );
+                                    if (shouldDelete == true) {
+                                      feedingC.removeFeedingTime(index);
+                                    }
+                                }
+                              },
+                              itemBuilder:
+                                  (BuildContext context) => <PopupMenuEntry<String>>[
+                                    const PopupMenuItem<String>(
+                                      value: 'Mark Complete',
+                                      child: Text('Mark Complete'),
+                                    ),
+                                    const PopupMenuItem<String>(value: 'Edit', child: Text('Edit')),
+                                    const PopupMenuItem<String>(value: 'Delete', child: Text('Delete')),
+                                  ],
+                            ),
+                          ),
+                        );
+                      }),
                     SizedBox(height: 2.h),
                     GestureDetector(
                       onTap: () async {
@@ -150,8 +185,6 @@ class FeedingScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              Spacer(),
-              AppButtonWidget(text: 'Save'),
             ],
           ),
         ),

@@ -13,6 +13,7 @@ import 'package:petguardian/resources/routes/routes_name.dart';
 import 'package:fpdart/fpdart.dart';
 
 import '../../controllers/activity_controller.dart';
+import '../../controllers/ad_controller.dart';
 import '../../controllers/add_pet_info_controller.dart';
 import '../../controllers/dashboard_controller.dart';
 import '../../controllers/feeding_controller.dart';
@@ -39,6 +40,7 @@ OTPController get otpC => Get.find<OTPController>();
 UserController get userC => Get.find<UserController>();
 SettingController get settingC => Get.find<SettingController>();
 LifecycleController get lifecycleC => Get.find<LifecycleController>();
+AdController get adC => Get.find<AdController>();
 
 String get uid => FirebaseAuth.instance.currentUser!.uid;
 
@@ -54,7 +56,10 @@ const List<String> homeTextList = [
   'Gallery',
   'My Posts',
 ];
-const List<String> settingsTextList = ['Profile', 'Logout', 'Delete Account'];
+const List<String> settingsTextList = [
+  'Profile', 'Blocked Users', 'Logout',
+  // , 'Delete Account'
+];
 const List<String> homeIconsList = [
   AppIcons.settings,
   AppIcons.food,
@@ -65,7 +70,13 @@ const List<String> homeIconsList = [
   AppIcons.gallery,
   AppIcons.forum,
 ];
-const List<String> settingsIconsList = [AppIcons.profile, AppIcons.logout, AppIcons.delete];
+const List<String> settingsIconsList = [
+  AppIcons.profile,
+  AppIcons.userBlock,
+  AppIcons.logout,
+
+  // AppIcons.delete,
+];
 
 List<VoidCallback> homeNavigateList = [
   () => Get.toNamed(RoutesName.settingsScreen),

@@ -1,215 +1,205 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:petguardian/resources/widgets/loader.dart';
+import 'package:petguardian/views/home/components/my_dogs_list_widget.dart';
 import 'package:sizer/sizer.dart';
+import 'package:petguardian/resources/constants/app_colors.dart';
 import 'package:petguardian/resources/constants/app_icons.dart';
 import 'package:petguardian/resources/widgets/app_text_widget.dart';
 import 'package:intl/intl.dart';
 
 import '../../controllers/health_controller.dart';
-import '../../resources/constants/app_colors.dart';
 import '../../resources/constants/constants.dart';
-import 'components/my_dogs_list_widget.dart'; // Assuming this exists
 
 class HealthScreen extends StatelessWidget {
-  const HealthScreen({super.key});
+  final HealthController healthC = Get.find<HealthController>();
+
+  HealthScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final todayDate = DateFormat('MMMM d, yyyy').format(DateTime.now());
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 3.h, horizontal: 5.w),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                /// Header
-                Row(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              /// Reminder Section
+              Row(
+                children: [
+                  GestureDetector(
+                    onTap: () => Get.back(),
+                    child: SizedBox(height: 5.5.h, width: 11.w, child: SvgPicture.asset(AppIcons.backButton)),
+                  ),
+                  SizedBox(width: 5.w),
+                  AppTextWidget(text: 'Health - $todayDate', fontWeight: FontWeight.w500, fontSize: 17.5),
+                ],
+              ),
+              SizedBox(height: 4.h),
+              Obx(
+                () => Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    GestureDetector(
-                      onTap: () => Get.back(),
-                      child: SizedBox(
-                        height: 5.5.h,
-                        width: 11.w,
-                        child: SvgPicture.asset(AppIcons.backButton),
-                      ),
+                    AppTextWidget(
+                      text: 'Set Reminder',
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
+                      fontFamily: headingFont,
                     ),
-                    SizedBox(width: 5.w),
-                    AppTextWidget(text: 'Health', fontWeight: FontWeight.w500, fontSize: 17.5),
+                    SizedBox(height: 3.h),
+                    SwitchListTile(
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                      tileColor: Colors.white,
+                      contentPadding: EdgeInsets.symmetric(horizontal: 4.w),
+                      value: healthC.reminderEnabled.value,
+                      onChanged: (val) => healthC.toggleReminder(val),
+                      title: Text(healthC.reminderEnabled.value ? 'Disable Reminder' : 'Enable Reminder'),
+                    ),
                   ],
                 ),
-                SizedBox(height: 4.h),
+              ),
+              SizedBox(height: 3.h),
 
-                /// Reminder Section
-                Obx(
-                  () => Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      AppTextWidget(
-                        text: 'Set Reminder',
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                        fontFamily: headingFont,
-                      ),
-                      SizedBox(height: 3.h),
-                      SwitchListTile(
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                        tileColor: Colors.white,
-                        contentPadding: EdgeInsets.symmetric(horizontal: 4.w),
-                        value: healthC.reminderEnabled.value,
-                        onChanged: (val) => healthC.reminderEnabled.value = val,
-                        title: Text(healthC.reminderEnabled.value ? 'Disable Reminder' : 'Enable Reminder'),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 3.h),
-
-                /// Health Schedule
-                AppTextWidget(
-                  text: 'Health Schedule',
-                  fontSize: 15,
-                  fontWeight: FontWeight.w600,
-                  fontFamily: headingFont,
-                ),
-                SizedBox(height: 3.h),
-                Obx(
-                  () => Column(
-                    children:
-                        healthC.activities.asMap().entries.map((entry) {
-                          int index = entry.key;
-                          HealthActivity activity = entry.value;
-                          final info = getDueDateInfo(activity);
-                          return Padding(
-                            padding: EdgeInsets.only(bottom: 1.h),
-                            child: ListTile(
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                              tileColor: Colors.white,
-                              contentPadding: EdgeInsets.only(left: 4.w),
-                              leading: AppTextWidget(text: activity.name.value),
-                              trailing: PopupMenuButton<String>(
-                                icon: Icon(Icons.more_vert, color: AppColors.black),
-                                onSelected: (String result) async {
-                                  switch (result) {
-                                    case 'Mark Complete':
-                                      showModalBottomSheet(
-                                        context: context,
-                                        useSafeArea: true,
-                                        isScrollControlled: true,
-                                        builder: (context) {
-                                          return MyDogsListWidget();
-                                        },
-                                      );
-                                    case 'Mark UnComplete':
-                                      feedingC.todayStatus[index] = false;
-                                    case 'Edit':
-                                      showAddEditDialog(context, activity);
-                                    case 'Delete':
-                                      healthC.removeActivity(index);
-                                  }
-                                },
-                                itemBuilder:
-                                    (BuildContext context) => <PopupMenuEntry<String>>[
-                                      PopupMenuItem<String>(
-                                        value: 'Mark Complete',
-                                        child: Text('Mark Complete'),
-                                      ),
-                                      const PopupMenuItem<String>(value: 'Edit', child: Text('Edit')),
-                                      const PopupMenuItem<String>(value: 'Delete', child: Text('Delete')),
-                                    ],
-                              ),
+              /// Health Schedule
+              Obx(
+                () => Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    AppTextWidget(
+                      text: 'Health Schedule',
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
+                      fontFamily: headingFont,
+                    ),
+                    SizedBox(height: 3.h),
+                    if (healthC.isLoading.value)
+                      Center(child: Padding(padding: EdgeInsets.only(top: 5.h, bottom: 2.h), child: Loader()))
+                    else if (healthC.healthSchedules.isEmpty)
+                      Center(
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 5.h, bottom: 2.h),
+                          child: AppTextWidget(
+                            height: 1.3,
+                            text: 'No health schedules yet.\nAdd one to get started!',
+                            fontSize: 16,
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      )
+                    else
+                      ...healthC.healthSchedules.asMap().entries.map((entry) {
+                        int index = entry.key;
+                        var schedule = entry.value;
+                        return Padding(
+                          padding: EdgeInsets.only(bottom: 1.h),
+                          child: ListTile(
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                            tileColor: Colors.white,
+                            contentPadding: EdgeInsets.only(left: 4.w),
+                            leading: AppTextWidget(text: schedule.time.format(context)),
+                            trailing: PopupMenuButton<String>(
+                              icon: Icon(Icons.more_vert, color: AppColors.black),
+                              onSelected: (String result) async {
+                                switch (result) {
+                                  case 'Mark Complete':
+                                    _showPetSelector(context, index);
+                                    break;
+                                  case 'Edit':
+                                    _showEditTimeDialog(context, index);
+                                    break;
+                                  case 'Delete':
+                                    final shouldDelete = await showDialog<bool>(
+                                      context: context,
+                                      builder:
+                                          (context) => AlertDialog(
+                                            title: Text('Delete Schedule'),
+                                            content: Text(
+                                              'Are you sure you want to delete this health schedule?',
+                                            ),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () => Navigator.pop(context, false),
+                                                child: Text('Cancel'),
+                                              ),
+                                              TextButton(
+                                                onPressed: () => Navigator.pop(context, true),
+                                                child: Text('Delete'),
+                                              ),
+                                            ],
+                                          ),
+                                    );
+                                    if (shouldDelete == true) {
+                                      healthC.removeHealthTime(index);
+                                    }
+                                    break;
+                                }
+                              },
+                              itemBuilder:
+                                  (BuildContext context) => <PopupMenuEntry<String>>[
+                                    const PopupMenuItem<String>(
+                                      value: 'Mark Complete',
+                                      child: Text('Mark Complete'),
+                                    ),
+                                    const PopupMenuItem<String>(value: 'Edit', child: Text('Edit')),
+                                    const PopupMenuItem<String>(value: 'Delete', child: Text('Delete')),
+                                  ],
                             ),
-                          );
-                        }).toList(),
-                  ),
-                ),
-                SizedBox(height: 2.h),
-                GestureDetector(
-                  onTap: () => showAddEditDialog(context),
-                  child: Row(
-                    children: [
-                      AppTextWidget(
-                        text: 'Add Activity',
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                        fontFamily: headingFont,
+                          ),
+                        );
+                      }),
+                    SizedBox(height: 2.h),
+                    GestureDetector(
+                      onTap: () async {
+                        final newTime = await showTimePicker(context: context, initialTime: TimeOfDay.now());
+                        if (newTime != null) {
+                          healthC.addHealthTime(newTime);
+                        }
+                      },
+                      child: Row(
+                        children: [
+                          AppTextWidget(
+                            text: 'Add Schedule',
+                            fontWeight: FontWeight.w600,
+                            fontFamily: headingFont,
+                            fontSize: 15,
+                          ),
+                          SizedBox(width: 2.w),
+                          Icon(Icons.add_box_outlined),
+                        ],
                       ),
-                      SizedBox(width: 2.w),
-                      Icon(Icons.add_box_outlined),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
     );
   }
 
-  Map<String, dynamic> getDueDateInfo(HealthActivity activity) {
-    final lastDone = activity.lastDone?.value;
-    if (lastDone == null) {
-      return {'text': 'Not done yet', 'isOverdue': false};
-    }
-    final dueDate = lastDone.add(Duration(days: activity.frequencyDays.value));
-    final now = DateTime.now();
-    if (dueDate.isBefore(now)) {
-      return {'text': 'Overdue: ${DateFormat('MMM d').format(dueDate)}', 'isOverdue': true};
-    } else {
-      return {'text': 'Next: ${DateFormat('MMM d').format(dueDate)}', 'isOverdue': false};
-    }
+  void _showPetSelector(BuildContext context, int index) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => MyDogsListWidget(),
+    ).then((selectedPetIds) {
+      if (selectedPetIds != null && selectedPetIds.isNotEmpty) {
+        healthC.markHealthComplete(index, selectedPetIds);
+      }
+    });
   }
 
-  void showAddEditDialog(BuildContext context, [HealthActivity? activity]) {
-    final isEditing = activity != null;
-    final nameController = TextEditingController(text: isEditing ? activity!.name.value : '');
-    final frequencyController = TextEditingController(
-      text: isEditing ? activity!.frequencyDays.value.toString() : '',
-    );
-
-    showDialog(
-      context: context,
-      builder:
-          (context) => AlertDialog(
-            title: Text(isEditing ? 'Edit Activity' : 'Add Activity'),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextField(
-                  controller: nameController,
-                  decoration: InputDecoration(labelText: 'Activity Name'),
-                ),
-                TextField(
-                  controller: frequencyController,
-                  decoration: InputDecoration(labelText: 'Frequency (days)'),
-                  keyboardType: TextInputType.number,
-                ),
-              ],
-            ),
-            actions: [
-              TextButton(onPressed: () => Navigator.pop(context), child: Text('Cancel')),
-              TextButton(
-                onPressed: () {
-                  final name = nameController.text;
-                  final frequency = int.tryParse(frequencyController.text);
-                  if (name.isNotEmpty && frequency != null && frequency > 0) {
-                    if (isEditing) {
-                      activity!.name.value = name;
-                      activity!.frequencyDays.value = frequency;
-                    } else {
-                      healthC.addActivity(name, frequency);
-                    }
-                    Navigator.pop(context);
-                  } else {
-                    Get.snackbar('Error', 'Please enter valid name and frequency');
-                  }
-                },
-                child: Text('Save'),
-              ),
-            ],
-          ),
-    );
+  void _showEditTimeDialog(BuildContext context, int index) {
+    showTimePicker(context: context, initialTime: TimeOfDay.now()).then((time) {
+      if (time != null) {
+        healthC.updateHealthTime(index, time);
+      }
+    });
   }
 }

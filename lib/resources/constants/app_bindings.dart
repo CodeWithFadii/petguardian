@@ -3,6 +3,7 @@ import 'package:petguardian/controllers/gallery_controller.dart';
 import 'package:petguardian/controllers/otp_controller.dart';
 import 'package:petguardian/controllers/user_controller.dart';
 import '../../controllers/activity_controller.dart';
+import '../../controllers/ad_controller.dart';
 import '../../controllers/add_pet_info_controller.dart';
 import '../../controllers/auth_controller.dart';
 import '../../controllers/dashboard_controller.dart';
@@ -27,6 +28,7 @@ class GlobalBinding extends Bindings {
 class DashboardBinding extends Bindings {
   @override
   void dependencies() {
+    Get.put(AdController());
     Get.put(DashboardController());
     Get.put(ForumController());
     Get.put(UserController());

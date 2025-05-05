@@ -74,7 +74,7 @@ class PetCard extends StatelessWidget {
             ],
           ),
           GestureDetector(
-            onTap: () => Get.toNamed(RoutesName.petDetailScreen),
+            onTap: () => Get.toNamed(RoutesName.petDetailScreen, arguments: {'pet': pet}),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(100),
               child: ShimmerCachedImage(imageUrl: pet.imageUrl, height: 90, width: 90),

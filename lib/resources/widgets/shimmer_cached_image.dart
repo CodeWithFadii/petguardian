@@ -18,25 +18,28 @@ class ShimmerCachedImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CachedNetworkImage(
-      imageUrl: imageUrl,
-      width: width,
-      height: height,
-      fit: fit,
-      placeholder:
-          (context, url) => Shimmer.fromColors(
-            baseColor: Colors.grey[300]!,
-            highlightColor: Colors.grey[100]!,
-            child: Container(width: width, height: height, color: Colors.white),
-          ),
-      errorWidget: (context, url, error) {
-        return Container(
-          width: width,
-          height: height,
-          color: Colors.grey[300],
-          child: const Icon(Icons.error, color: Colors.red),
-        );
-      },
+    return Container(
+      color: Colors.black,
+      child: CachedNetworkImage(
+        imageUrl: imageUrl,
+        width: width,
+        height: height,
+        fit: fit,
+        placeholder:
+            (context, url) => Shimmer.fromColors(
+              baseColor: Colors.grey[300]!,
+              highlightColor: Colors.grey[100]!,
+              child: Container(width: width, height: height, color: Colors.white),
+            ),
+        errorWidget: (context, url, error) {
+          return Container(
+            width: width,
+            height: height,
+            color: Colors.grey[300],
+            child: const Icon(Icons.error, color: Colors.red),
+          );
+        },
+      ),
     );
   }
 }

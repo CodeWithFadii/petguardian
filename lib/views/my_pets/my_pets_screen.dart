@@ -13,12 +13,30 @@ import 'components/pet_card.dart';
 class MyPetsScreen extends StatelessWidget {
   const MyPetsScreen({super.key});
 
+  // void scheduleExample() async {
+  //   final id = await NotificationService().getRandomNotificationId();
+  //
+  //   await NotificationService().scheduleNotification(
+  //     id: id,
+  //     title: 'Scheduled Notification',
+  //     body: 'This notification was scheduled!',
+  //     scheduledTime: DateTime.now().add(Duration(seconds: 10)),
+  //   );
+  // }
+
+  // void count() async {
+  //   final data = await NotificationService().getPendingNotifications();
+  //   print(data.length);
+  // }
+
   @override
   Widget build(BuildContext context) {
     return GlobalLoader(
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: () {
+            // count();
+            // scheduleExample();
             addPetInfoC.setDefault();
             Get.toNamed(RoutesName.addPetScreen);
           },
@@ -35,20 +53,20 @@ class MyPetsScreen extends StatelessWidget {
                   child: StreamBuilder<List<PetModel>>(
                     stream: addPetInfoC.petsStream(),
                     builder: (context, snapshot) {
-                      // if (snapshot.connectionState == ConnectionState.waiting) {
-                      //   return Loader();
-                      // }
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Loader();
+                      }
                       if (snapshot.hasError) {
                         return Center(child: AppTextWidget(text: 'Error: ${snapshot.error}', height: 1.3));
                       }
-                      // if (!snapshot.hasData) {
-                      //   return Center(
-                      //     child: AppTextWidget(
-                      //       text: 'No pets found. Time to make some furry memories! 🐾',
-                      //       height: 1.3,
-                      //     ),
-                      //   );
-                      // }
+                      if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                        return Center(
+                          child: AppTextWidget(
+                            text: 'No pets found. Time to make some furry memories! 🐾',
+                            height: 1.3,
+                          ),
+                        );
+                      }
                       final pets = snapshot.data ?? [];
                       return GridView.builder(
                         itemCount: pets.length, // Replace with dynamic list count later
