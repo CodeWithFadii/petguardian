@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:petguardian/models/pet_model.dart';
 import 'package:petguardian/resources/constants/app_colors.dart';
 import 'package:petguardian/resources/constants/app_images.dart';
 import 'package:petguardian/resources/constants/constants.dart';
@@ -19,6 +20,7 @@ class PetDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final PetModel pet = Get.arguments['pet'];
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -34,7 +36,7 @@ class PetDetailScreen extends StatelessWidget {
                     child: SizedBox(height: 5.5.h, width: 11.w, child: SvgPicture.asset(AppIcons.backButton)),
                   ),
                   SizedBox(width: 5.w),
-                  AppTextWidget(text: 'Jackie', fontWeight: FontWeight.w500, fontSize: 17.5),
+                  AppTextWidget(text: pet.name, fontWeight: FontWeight.w500, fontSize: 17.5),
                 ],
               ),
               Expanded(
@@ -42,11 +44,11 @@ class PetDetailScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       SizedBox(height: 3.h),
-                      FeedingChart(),
+                      FeedingChart(petId: pet.id!),
                       SizedBox(height: 4.h),
-                      HealthChart(),
+                      HealthChart(petId: pet.id!),
                       SizedBox(height: 4.h),
-                      GroomingChart(),
+                      GroomingChart(petId: pet.id!),
                       SizedBox(height: 4.h),
                     ],
                   ),

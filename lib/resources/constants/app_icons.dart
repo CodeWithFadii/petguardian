@@ -16,8 +16,11 @@ class AppIcons {
   static const String settings = 'assets/icons/settings.svg';
   static const String delete = 'assets/icons/delete.svg';
   static const String logout = 'assets/icons/logout.svg';
+  static const String userBlock = 'assets/icons/user_block.svg';
   static const String forum = 'assets/icons/forum.svg';
   static const String comment = 'assets/icons/comment.svg';
   static const String like = 'assets/icons/like.svg';
   static const String likedFilled = 'assets/icons/like_filled.svg';
+  static const String heartActive = 'assets/icons/heart_active.svg';
+  static const String heartInActive = 'assets/icons/heart_inactive.svg';
 }

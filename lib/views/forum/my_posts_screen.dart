@@ -8,9 +8,11 @@ import 'package:petguardian/resources/widgets/app_text_widget.dart';
 import 'package:readmore/readmore.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../models/post_model.dart';
 import '../../resources/constants/app_icons.dart';
 import '../../resources/routes/routes_name.dart';
 import '../../resources/utils.dart';
+import '../../resources/widgets/loader.dart';
 import 'components/comment_section.dart';
 import 'components/post_widget.dart';
 
@@ -38,10 +40,26 @@ class MyPostsScreen extends StatelessWidget {
 
               SizedBox(height: 2.h),
               Expanded(
-                child: ListView.builder(
-                  itemCount: 1,
-                  itemBuilder: (context, index) {
-                    return PostWidget(isEdit: true);
+                child: StreamBuilder<List<PostModel>>(
+                  stream: forumC.myPostsStream(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(child: Loader());
+                    }
+                    if (snapshot.hasError) {
+                      return Center(child: AppTextWidget(text: 'Error: ${snapshot.error}', height: 1.3));
+                    }
+                    if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                      return Center(child: AppTextWidget(text: 'No posts yet.', height: 1.3));
+                    }
+                    final posts = snapshot.data ?? [];
+                    return ListView.builder(
+                      itemCount: posts.length,
+                      itemBuilder: (context, index) {
+                        final post = posts[index];
+                        return PostWidget(post: post);
+                      },
+                    );
                   },
                 ),
               ),
