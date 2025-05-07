@@ -7,4 +7,10 @@ class DashboardController extends GetxController {
   int get selectedIndex => _selectedIndex.value;
 
   set selectedIndex(int value) => _selectedIndex.value = value;
+
+  @override
+  void onInit() {
+    adC.initAdMob();
+    super.onInit();
+  }
 }

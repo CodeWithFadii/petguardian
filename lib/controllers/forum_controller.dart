@@ -80,6 +80,7 @@ class ForumController extends GetxController {
       Utils.showMessage('Post uploaded successfully', context: context, isError: false);
       setDefault();
       Get.back();
+      adC.initAdMob();
     } catch (e, stackTrace) {
       log('Error uploading post : $e\n$stackTrace');
       Utils.showMessage('Error uploading post', context: context, isError: true);

@@ -13,6 +13,7 @@ import '../../controllers/grooming_controller.dart';
 import '../../controllers/health_controller.dart';
 import '../../controllers/lifecycle_controller.dart';
 import '../../controllers/setting_controller.dart';
+import '../../controllers/subscription_controller.dart';
 import '../utils.dart';
 import '../widgets/loader.dart';
 
@@ -22,13 +23,13 @@ class GlobalBinding extends Bindings {
     Utils().setPortrait();
     Get.put(LifecycleController());
     Get.put(LoaderController());
+    Get.put(AdController());
   }
 }
 
 class DashboardBinding extends Bindings {
   @override
   void dependencies() {
-    Get.put(AdController());
     Get.put(DashboardController());
     Get.put(ForumController());
     Get.put(UserController());
@@ -90,5 +91,12 @@ class SettingBinding extends Bindings {
   @override
   void dependencies() {
     Get.put(SettingController());
+  }
+}
+
+class SubscriptionBinding extends Bindings {
+  @override
+  void dependencies() {
+    Get.put(SubscriptionController());
   }
 }

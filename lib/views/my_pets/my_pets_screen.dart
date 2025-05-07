@@ -13,30 +13,12 @@ import 'components/pet_card.dart';
 class MyPetsScreen extends StatelessWidget {
   const MyPetsScreen({super.key});
 
-  // void scheduleExample() async {
-  //   final id = await NotificationService().getRandomNotificationId();
-  //
-  //   await NotificationService().scheduleNotification(
-  //     id: id,
-  //     title: 'Scheduled Notification',
-  //     body: 'This notification was scheduled!',
-  //     scheduledTime: DateTime.now().add(Duration(seconds: 10)),
-  //   );
-  // }
-
-  // void count() async {
-  //   final data = await NotificationService().getPendingNotifications();
-  //   print(data.length);
-  // }
-
   @override
   Widget build(BuildContext context) {
     return GlobalLoader(
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            // count();
-            // scheduleExample();
             addPetInfoC.setDefault();
             Get.toNamed(RoutesName.addPetScreen);
           },

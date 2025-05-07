@@ -72,6 +72,8 @@ class ReminderScreen extends StatelessWidget {
                                       children: [
                                         Flexible(
                                           child: AppTextWidget(
+                                            textAlign: TextAlign.left,
+                                            height: 1.3,
                                             text: notification.title,
                                             fontWeight: FontWeight.w600,
                                             fontSize: 16,

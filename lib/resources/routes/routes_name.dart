@@ -24,4 +24,5 @@ class RoutesName {
   static const String profileScreen = '/profileScreen';
   static const String otherUserProfile = '/otherUserProfile';
   static const String blockedUsersScreen = '/blockedUsersScreen';
+  static const String subscriptionScreen = '/subscriptionScreen';
 }

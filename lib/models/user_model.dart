@@ -11,6 +11,8 @@ class UserModel {
   final String password;
   final UserType? userType;
   final String? img;
+  final bool? isPaid;
+  final DateTime? planEndDate;
 
   UserModel({
     this.id = '',
@@ -19,6 +21,8 @@ class UserModel {
     this.name = '',
     this.blocks = const [],
     this.password = '',
+    this.planEndDate,
+    this.isPaid = false,
     this.userType = UserType.email,
     this.img,
   });
@@ -31,6 +35,8 @@ class UserModel {
       'name': name,
       'blocks': blocks,
       'userType': userType?.name,
+      'isPaid': isPaid,
+      'planEndDate': planEndDate != null ? Timestamp.fromDate(planEndDate!) : null,
       'img': img,
     };
   }
@@ -45,6 +51,8 @@ class UserModel {
       password: data['password'] ?? 'defaultPassword123',
       userType: UserType.values.firstWhere((e) => e.name == data['userType'], orElse: () => UserType.email),
       createdAt: (data['createdAt'] as Timestamp?)?.toDate().toIso8601String() ?? '',
+      isPaid: data['isPaid'] ?? false,
+      planEndDate: data['planEndDate'] != null ? (data['planEndDate'] as Timestamp).toDate() : null,
       img: data['img'] ?? '',
     );
   }
@@ -57,6 +65,8 @@ class UserModel {
     List<String>? blocks,
     String? password,
     UserType? userType,
+    bool? isPaid,
+    DateTime? planEndDate,
     String? img,
   }) {
     return UserModel(
@@ -67,12 +77,14 @@ class UserModel {
       createdAt: createdAt ?? this.createdAt,
       password: password ?? this.password,
       userType: userType ?? this.userType,
+      isPaid: isPaid ?? this.isPaid,
+      planEndDate: planEndDate ?? this.planEndDate,
       img: img ?? this.img,
     );
   }
 
   @override
   String toString() {
-    return 'UserModel(id: $id, email: $email, createdAt: $createdAt,name: $name, blocks: $blocks, password: $password, userType: $userType, img: $img)';
+    return 'UserModel(id: $id, email: $email, createdAt: $createdAt, name: $name, blocks: $blocks, password: $password, userType: $userType, isPaid: $isPaid, planEndDate: $planEndDate, img: $img)';
   }
 }

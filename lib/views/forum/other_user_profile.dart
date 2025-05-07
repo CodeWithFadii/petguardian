@@ -91,7 +91,7 @@ class OtherUserProfile extends StatelessWidget {
                           ),
                       SizedBox(height: 2.h),
                       AppTextWidget(
-                        text: 'Fahad Ali',
+                        text: userData.name ?? '',
                         fontFamily: headingFont,
                         fontSize: 16,
                         fontWeight: FontWeight.w600,

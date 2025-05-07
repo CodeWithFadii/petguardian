@@ -86,7 +86,9 @@ class _CommentsSectionState extends State<CommentsSection> {
                     final comment = comments[index];
                     return GestureDetector(
                       onLongPress: () {
-                        _showDeleteConfirmationDialog(comment.id!);
+                        if (comment.userId == uid) {
+                          _showDeleteConfirmationDialog(comment.id!);
+                        }
                       },
                       child: Padding(
                         padding: EdgeInsets.symmetric(horizontal: 3.w),

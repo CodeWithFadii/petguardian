@@ -24,6 +24,7 @@ import '../../views/my_pets/pet_detail_screen.dart';
 import '../../views/onboarding/onboarding_screen.dart';
 import '../../views/settings/blocked_users_screen.dart';
 import '../../views/splash/splash_screen.dart';
+import '../../views/subscription/subscription_screen.dart';
 
 class Routes {
   static final routes = [
@@ -50,5 +51,10 @@ class Routes {
     GetPage(name: RoutesName.addPostScreen, page: () => AddPostScreen()),
     GetPage(name: RoutesName.editPostScreen, page: () => EditPostScreen()),
     GetPage(name: RoutesName.blockedUsersScreen, page: () => BlockedUsersScreen()),
+    GetPage(
+      name: RoutesName.subscriptionScreen,
+      page: () => SubscriptionScreen(),
+      binding: SubscriptionBinding(),
+    ),
   ];
 }

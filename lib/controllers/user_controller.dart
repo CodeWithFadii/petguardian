@@ -16,13 +16,20 @@ class UserController extends GetxController {
   set user(UserModel? value) => _user.value = value;
 
   Future<void> getCurrentUserData() async {
+    loaderC.showLoader();
     try {
       final doc = await FirebaseFirestore.instance.collection('users').doc(uid).get();
       _user.value = UserModel.fromFirestore(doc);
       log('User data: ${_user.value.toString()}');
     } catch (e) {
       log('Error getting user data ${e.toString()}');
+    } finally {
+      loaderC.hideLoader();
     }
+  }
+
+  Future<List<DocumentSnapshot>> fetchBlockedUsers(List<dynamic> ids) async {
+    return Future.wait(ids.map((id) => FirebaseFirestore.instance.collection('users').doc(id).get()));
   }
 
   Future<void> updateBlocks({required String userId, required BuildContext context}) async {

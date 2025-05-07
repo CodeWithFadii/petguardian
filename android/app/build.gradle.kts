@@ -33,7 +33,7 @@ android {
         applicationId = "com.petguardian.petguardian"
         minSdk = 23
         targetSdk = 34
-        versionCode = 4
+        versionCode = 6
         versionName = "1.0.1"
     }
 
@@ -54,7 +54,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            signingConfig = signingConfigs.getByName("release")
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
 }

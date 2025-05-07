@@ -22,6 +22,7 @@ import '../../controllers/grooming_controller.dart';
 import '../../controllers/health_controller.dart';
 import '../../controllers/lifecycle_controller.dart';
 import '../../controllers/setting_controller.dart';
+import '../../controllers/subscription_controller.dart';
 import '../../controllers/user_controller.dart';
 import '../widgets/loader.dart';
 import 'app_icons.dart';
@@ -41,6 +42,7 @@ UserController get userC => Get.find<UserController>();
 SettingController get settingC => Get.find<SettingController>();
 LifecycleController get lifecycleC => Get.find<LifecycleController>();
 AdController get adC => Get.find<AdController>();
+SubscriptionController get subscriptionC => Get.find<SubscriptionController>();
 
 String get uid => FirebaseAuth.instance.currentUser!.uid;
 

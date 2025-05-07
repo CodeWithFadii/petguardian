@@ -1,9 +1,6 @@
-import 'dart:developer';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:petguardian/resources/constants/app_bindings.dart';
 import 'package:petguardian/resources/routes/routes.dart';
 import 'package:petguardian/resources/routes/routes_name.dart';
@@ -18,8 +15,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await NotificationService().init();
-  final bool available = await InAppPurchase.instance.isAvailable();
-  log("In-App Purchase Available: $available");
   MobileAds.instance.initialize();
   RequestConfiguration requestConfiguration = RequestConfiguration(
     testDeviceIds: ['F97BCE9EF4C89A087E58BB0E19ED3C19'],
